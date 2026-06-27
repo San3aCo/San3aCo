@@ -251,9 +251,14 @@ header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:12p
             <h3 id="adminPanelTitle">🔧 لوحة الأدمن</h3>
             <p id="adminPanelMsg">أنت مسجل كأدمن — جميع الكورسات مفتوحة لك.</p>
             <div style="background:#fff;border-radius:8px;padding:12px;margin-bottom:10px">
-              <div style="font-size:12px;color:#666" id="dailyCodeLabel">كود اليوم:</div>
-              <div style="font-size:24px;font-weight:900;letter-spacing:3px;direction:ltr;text-align:center;color:#1a1a2e" id="adminDailyCode">------</div>
+              <div style="font-size:13px;font-weight:700;margin-bottom:6px">🔑 أكواد اليوم لكل كورس</div>
+              <div id="adminCourseCodes" style="font-size:12px"></div>
               <div style="font-size:11px;color:#999;text-align:center;margin-top:4px" id="codeExpiryLabel">ينتهي منتصف الليل</div>
+            </div>
+            <div style="background:#fff;border-radius:8px;padding:12px;margin-bottom:10px">
+              <div style="font-size:13px;font-weight:700;margin-bottom:6px">📋 المشتركين</div>
+              <div id="adminSubList" style="font-size:12px;max-height:150px;overflow-y:auto"></div>
+              <div style="margin-top:6px;font-size:11px;color:#999">لإضافة مشترك: افتح الملف ← عدّل <code>subscribersDb</code></div>
             </div>
             <button class="btn btn-sm btn-primary" onclick="localStorage.removeItem('san3a_admin');adminMode=false;document.getElementById('adminPanel').style.display='none';document.getElementById('adminBadge').style.display='none';updateAuthUI()" id="adminLogoutBtn">تسجيل الخروج من الأدمن</button>
           </div>
@@ -338,20 +343,31 @@ header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:12p
 
 <div class="modal-overlay" id="dailyCodeModal">
   <div class="modal">
-    <h2 id="codeModalTitle">🔐 كود الدخول اليومي</h2>
-    <p class="sub" id="codeModalSub">أدخل كود اليوم الذي حصلت عليه من بوت التليجرام</p>
-    <div class="form-group">
-      <label id="codeInputLabel">كود اليوم</label>
-      <input type="text" id="dailyCodeInput" placeholder="مثال: A3B7K9X2" maxlength="8" style="direction:ltr;text-align:center;font-size:20px;letter-spacing:3px;font-weight:700" onkeydown="if(event.key==='Enter')submitDailyCode()">
+    <h2 id="codeModalTitle">🔐 تفعيل الكورس</h2>
+    <p class="sub" id="codeModalSub">أدخل كلمة الاشتراك التي أرسلها لك الأدمن</p>
+
+    <div id="subWordSection">
+      <div class="form-group">
+        <label id="subWordLabel">كلمة الاشتراك</label>
+        <input type="text" id="subWordInput" placeholder="أدخل الكلمة" onkeydown="if(event.key==='Enter')submitSubWord()">
+      </div>
+      <button class="btn btn-primary" onclick="submitSubWord()" style="width:100%;justify-content:center" id="subWordBtn">تفعيل الاشتراك</button>
+      <div id="subWordError" style="color:#dc3545;font-size:13px;margin-top:8px;text-align:center;display:none">كلمة غير صحيحة — تأكد من الكلمة</div>
+      <div id="subWordSuccess" style="color:#28a745;font-size:13px;margin-top:8px;text-align:center;display:none">✅ تم التفعيل! كود اليوم: <strong id="subWordCode" style="font-size:20px;letter-spacing:2px"></strong></div>
     </div>
-    <button class="btn btn-primary" onclick="submitDailyCode()" style="width:100%;justify-content:center" id="codeSubmitBtn">تأكيد الكود</button>
-    <div id="dailyCodeError" style="color:#dc3545;font-size:13px;margin-top:8px;text-align:center;display:none">كود غير صحيح — حاول مرة أخرى</div>
-    <div id="dailyCodeSuccess" style="color:#28a745;font-size:13px;margin-top:8px;text-align:center;display:none">✅ تم التحقق! الكورسات مفتوحة لمدة 24 ساعة</div>
+
+    <div id="dailyCodeSection" style="display:none">
+      <div class="form-group">
+        <label id="codeInputLabel">أو أدخل كود اليوم مباشرة</label>
+        <input type="text" id="dailyCodeInput" placeholder="مثال: A3B7K9X2" maxlength="8" style="direction:ltr;text-align:center;font-size:20px;letter-spacing:3px;font-weight:700" onkeydown="if(event.key==='Enter')submitDailyCode()">
+      </div>
+      <button class="btn btn-primary" onclick="submitDailyCode()" style="width:100%;justify-content:center" id="codeSubmitBtn">تأكيد الكود</button>
+      <div id="dailyCodeError" style="color:#dc3545;font-size:13px;margin-top:8px;text-align:center;display:none">كود غير صحيح — حاول مرة أخرى</div>
+      <div id="dailyCodeSuccess" style="color:#28a745;font-size:13px;margin-top:8px;text-align:center;display:none">✅ تم التحقق! الكورسات مفتوحة لمدة 24 ساعة</div>
+    </div>
+
     <div class="text-center" style="margin-top:12px">
       <span style="font-size:12px;color:#666;cursor:pointer" onclick="closeDailyCodeModal()" id="codeCancelBtn">إلغاء</span>
-    </div>
-    <div class="text-center" style="margin-top:8px">
-      <span style="font-size:11px;color:#999" id="codeBotHint">للحصول على الكود اليومي، أرسل كلمة الاشتراك إلى البوت: @San3aCoursesBot</span>
     </div>
   </div>
 </div>
@@ -635,11 +651,43 @@ function toggleLang(){
 
 const dailyCodeSecret='san3a2024';
 
-function getDailyCode(){
+const courseSecrets={
+  'ps-basics':'ps2024',
+  'ps-ad':'ad2024',
+  'premiere-basics':'pr2024',
+  'capcut':'cc2024',
+  'figma-ui':'fg2024',
+  'freelance':'fr2024'
+};
+
+const subscribersDb=[
+  {word:'test123',name:'يوسف',course:'ps-basics'},
+  {word:'demo456',name:'أحمد',course:'ps-ad'},
+  {word:'premier789',name:'مريم',course:'premiere-basics'}
+];
+
+function validateSubscriber(word,courseId){
+  return subscribersDb.find(s=>s.word===word.trim()&&s.course===courseId);
+}
+
+function subscribeWithWord(word,courseId){
+  const sub=validateSubscriber(word,courseId);
+  if(!sub)return null;
+  if(!enrolledCourses.includes(courseId)){
+    enrolledCourses.push(courseId);
+    localStorage.setItem('san3a_enrolled',JSON.stringify(enrolledCourses));
+  }
+  dailyCodesVerified[courseId]=true;
+  localStorage.setItem('san3a_daily_codes',JSON.stringify(dailyCodesVerified));
+  localStorage.setItem('san3a_daily_code_date',new Date().toISOString().slice(0,10));
+  return sub;
+}
+
+function getDailyCode(courseId){
   const d=new Date();
   const dateStr=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   let hash=0;
-  const str=dateStr+dailyCodeSecret;
+  const str=dateStr+(courseSecrets[courseId]||dailyCodeSecret)+dailyCodeSecret;
   for(let i=0;i<str.length;i++){
     const char=str.charCodeAt(i);
     hash=((hash<<5)-hash)+char;
@@ -657,23 +705,57 @@ function getDailyCodeExpiry(){
   return {hours,mins};
 }
 
-let dailyCodeVerified=localStorage.getItem('san3a_daily_code_date')===new Date().toISOString().slice(0,10)&&localStorage.getItem('san3a_daily_code')==='verified';
+let dailyCodesVerified=JSON.parse(localStorage.getItem('san3a_daily_codes')||'{}');
+const todayStr=new Date().toISOString().slice(0,10);
+if(localStorage.getItem('san3a_daily_code_date')!==todayStr){
+  dailyCodesVerified={};
+  localStorage.setItem('san3a_daily_codes','{}');
+  localStorage.setItem('san3a_daily_code_date',todayStr);
+}
 
-function verifyDailyCode(code){
-  return code.toUpperCase().trim()===getDailyCode();
+function isCourseVerified(courseId){
+  return dailyCodesVerified[courseId]===true;
+}
+
+function verifyDailyCode(code,courseId){
+  return code.toUpperCase().trim()===getDailyCode(courseId);
+}
+
+function submitSubWord(){
+  const word=document.getElementById('subWordInput').value.trim();
+  const courseId=currentCourse?currentCourse.id:'ps-basics';
+  const errDiv=document.getElementById('subWordError');
+  const successDiv=document.getElementById('subWordSuccess');
+  errDiv.style.display='none';successDiv.style.display='none';
+  if(!word){errDiv.textContent=t('fillFields');errDiv.style.display='block';return;}
+  const sub=subscribeWithWord(word,courseId);
+  if(sub){
+    successDiv.innerHTML=`✅ تم التفعيل! مرحباً ${sub.name}<br>كود <strong>${(courses.find(c=>c.id===courseId)||{}).title||courseId}</strong>:<br><strong style="font-size:24px;letter-spacing:3px;direction:ltr;display:block;margin-top:8px">${getDailyCode(courseId)}</strong>`;
+    successDiv.style.display='block';
+    document.getElementById('subWordInput').value='';
+    setTimeout(()=>{closeDailyCodeModal();if(currentCourse)renderCourseDetail();renderLessonList();updateDashboard();},2000);
+  } else {
+    errDiv.textContent=t('codeError');
+    errDiv.style.display='block';
+  }
 }
 
 function submitDailyCode(){
   const code=document.getElementById('dailyCodeInput').value.trim();
+  const courseId=currentCourse?currentCourse.id:'ps-basics';
   const errDiv=document.getElementById('dailyCodeError');
   const successDiv=document.getElementById('dailyCodeSuccess');
   if(!code){
     errDiv.textContent=t('fillFields');errDiv.style.display='block';successDiv.style.display='none';return;
   }
-  if(verifyDailyCode(code)){
-    dailyCodeVerified=true;
-    localStorage.setItem('san3a_daily_code','verified');
+  if(verifyDailyCode(code,courseId)){
+    dailyCodesVerified[courseId]=true;
+    localStorage.setItem('san3a_daily_codes',JSON.stringify(dailyCodesVerified));
     localStorage.setItem('san3a_daily_code_date',new Date().toISOString().slice(0,10));
+    if(!enrolledCourses.includes(courseId)){
+      enrolledCourses.push(courseId);
+      localStorage.setItem('san3a_enrolled',JSON.stringify(enrolledCourses));
+    }
     errDiv.style.display='none';
     successDiv.textContent=t('codeSuccess');
     successDiv.style.display='block';
@@ -686,7 +768,20 @@ function submitDailyCode(){
 }
 
 function showDailyCodeModal(){
+  document.getElementById('subWordInput').value='';
+  document.getElementById('subWordError').style.display='none';
+  document.getElementById('subWordSuccess').style.display='none';
   document.getElementById('dailyCodeInput').value='';
+  document.getElementById('dailyCodeError').style.display='none';
+  document.getElementById('dailyCodeSuccess').style.display='none';
+  const enrolled=enrolledCourses.includes(currentCourse?.id);
+  const courseTitle=currentCourse?currentCourse.title:'';
+  document.getElementById('codeModalTitle').textContent=t('codeModalTitle')+(courseTitle?' — '+courseTitle:'');
+  document.getElementById('codeModalSub').textContent=enrolled?t('codeModalSub'):t('subscriptionWordHint')||'أدخل كلمة الاشتراك';
+  document.getElementById('subWordSection').style.display=enrolled?'none':'block';
+  document.getElementById('dailyCodeSection').style.display='block';
+  document.getElementById('dailyCodeModal').classList.add('active');
+}
   document.getElementById('dailyCodeError').style.display='none';
   document.getElementById('dailyCodeSuccess').style.display='none';
   document.getElementById('dailyCodeModal').classList.add('active');
@@ -781,6 +876,8 @@ function updateUILang(){
   if(document.getElementById('codeInputLabel')) document.getElementById('codeInputLabel').textContent=t('codeInputLabel');
   if(document.getElementById('codeSubmitBtn')) document.getElementById('codeSubmitBtn').textContent=t('codeSubmitBtn');
   if(document.getElementById('codeCancelBtn')) document.getElementById('codeCancelBtn').textContent=t('codeCancelBtn');
+  if(document.getElementById('subWordLabel')) document.getElementById('subWordLabel').textContent=t('subscriptionWord');
+  if(document.getElementById('subWordBtn')) document.getElementById('subWordBtn').textContent=t('subscribeConfirm');
   if(document.getElementById('codeBotHint')) document.getElementById('codeBotHint').textContent=t('codeBotHint');
 }
 
@@ -1106,7 +1203,7 @@ let currentLesson=0;
 function isUnlocked(courseId,lessonIndex){
   if(adminMode)return true;
   if(lessonIndex<2)return true;
-  if(!dailyCodeVerified)return false;
+  if(!isCourseVerified(courseId))return false;
   return enrolledCourses.includes(courseId);
 }
 
@@ -1215,8 +1312,8 @@ function renderCourseDetail(){
       ${enrolled?`<span style="color:#28a745;font-weight:700">${t('youAreEnrolled')}</span>`:
         (`<button class="btn btn-primary" onclick="showSubscribeModal()">${t('buyCourse')}</button>`)}
       <span style="font-size:12px;color:#666">${t('freeLessons')}</span>
-      ${!dailyCodeVerified&&!enrolled&&!adminMode?`<button class="btn btn-secondary btn-sm" onclick="showDailyCodeModal()">🔐 ${t('codeModalTitle')}</button>`:''}
-      ${dailyCodeVerified&&!enrolled?`<span style="font-size:12px;color:#28a745">✅ ${t('codeSuccess')}</span>`:''}
+      ${!enrolled&&!adminMode?`<button class="btn btn-secondary btn-sm" onclick="showDailyCodeModal()">🔐 ${t('codeModalTitle')}</button>`:''}
+      ${isCourseVerified(c.id)&&enrolled?`<span style="font-size:12px;color:#28a745">✅ ${t('codeSuccess')}</span>`:''}
     </div>
   `;
 
@@ -1366,9 +1463,17 @@ function showDashboard(){
   if(adminMode){
     document.getElementById('adminPanel').style.display='block';
     document.getElementById('adminBadge').style.display='inline-flex';
-    document.getElementById('adminDailyCode').textContent=getDailyCode();
-    document.getElementById('dailyCodeLabel').textContent=t('dailyCodeLabel');
     document.getElementById('codeExpiryLabel').textContent=t('codeExpires');
+    const codesHtml=`<table style="width:100%;border-collapse:collapse;text-align:center;direction:ltr">
+      ${courses.map(c=>`<tr style="border-bottom:1px solid #eee"><td style="padding:4px;font-size:11px">${c.title.slice(0,20)}</td><td style="padding:4px;font-family:monospace;font-weight:700;letter-spacing:2px;font-size:16px;color:#1a1a2e;direction:ltr">${getDailyCode(c.id)}</td></tr>`).join('')}
+    </table>`;
+    document.getElementById('adminCourseCodes').innerHTML=codesHtml;
+    const subList=document.getElementById('adminSubList');
+    if(subscribersDb.length===0){
+      subList.innerHTML='<span style="color:#999">لا يوجد مشتركين</span>';
+    } else {
+      subList.innerHTML=subscribersDb.map(s=>`<div style="padding:3px 0">• ${s.name} — <span style="color:#f7c948;font-weight:700">${s.word}</span> ← ${courses.find(c=>c.id===s.course)?.title||s.course}</div>`).join('');
+    }
   } else {
     document.getElementById('adminPanel').style.display='none';
   }
