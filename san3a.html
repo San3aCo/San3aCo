@@ -223,7 +223,12 @@ header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:12p
         <h2 id="lessonTitle">الدرس</h2>
       </div>
       <div class="video-container" id="videoContainer">
-        <iframe id="lessonVideo" src="" allowfullscreen loading="lazy"></iframe>
+        <iframe id="lessonVideo" src="" allowfullscreen loading="lazy" style="display:none"></iframe>
+        <div id="videoPlaceholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1a1a2e;color:#fff;min-height:360px;padding:40px;text-align:center">
+          <div style="font-size:64px;margin-bottom:16px">🎬</div>
+          <h3 style="color:#f7c948;font-size:20px;margin-bottom:8px" id="phTitle">جاري تجهيز الدرس</h3>
+          <p style="color:#999;font-size:14px;max-width:400px" id="phDesc">سيتم إضافة فيديو الدرس قريباً — قم برفع فيديو الشاشة الخاص بك على يوتيوب واستبدل الرابط</p>
+        </div>
       </div>
       <div class="assignment-box" id="assignmentBox"></div>
     </div>
@@ -924,11 +929,11 @@ function catName(c){return currentLang==='en'?c.nameEn:c.name;}
 function catDesc(c){return currentLang==='en'?c.descEn:c.desc;}
 
 const videoLibs={
-  ps: Array(15).fill('https://www.youtube.com/embed/xTzvQkOll2U'),
-  pr: Array(15).fill('https://www.youtube.com/embed/xDq3ij-oHJA'),
-  fg: Array(15).fill('https://www.youtube.com/embed/QJBP2uy8LcU'),
-  cc: Array(15).fill('https://www.youtube.com/embed/j5_471mO14c'),
-  fr: Array(15).fill('https://www.youtube.com/embed/JC_4JZ2Ciz4')
+  ps: Array(15).fill(''),
+  pr: Array(15).fill(''),
+  fg: Array(15).fill(''),
+  cc: Array(15).fill(''),
+  fr: Array(15).fill('')
 };
 
 function generateLessons(courseId, titles, videoKey){
@@ -1076,17 +1081,17 @@ const frAssign=[
 const assignments={ps:psAssign,pr:prAssign,fg:fgAssign,cc:ccAssign,fr:frAssign};
 
 const courses=[
-  {id:'ps-basics',cat:'photoshop',title:'أساسيات الفوتوشوب',desc:'تعلم واجهة الفوتوشوب، الطبقات، أدوات التحديد، الفلاتر، وتصميم البانرات — من الصفر للاحتراف',level:'beginner',duration:'٣ ساعات',price:12,lessons:generateLessons('ps',psTitles,'ps'),
+  {id:'ps-basics',cat:'photoshop',title:'فوتوشوب للإنتاج البصري',desc:'دورة شاملة في تحرير الصور الإبداعي — من فتح البرنامج إلى إخراج تصاميم جاهزة للسوق',level:'beginner',duration:'٣ ساعات',price:12,lessons:generateLessons('ps',psTitles,'ps'),
     downloads:[{name:'🎁 Adobe Photoshop 2025',desc:'هدية مقدمة من الموقع — نسخة كاملة',url:'https://archive.org/details/adobe.-photoshop-2025l'},{name:'Adobe Photoshop 2024',desc:'النسخة المجانية المستقرة',url:'https://archive.org/details/adobe-photoshop-2024_202506'}]},
-  {id:'ps-ad',cat:'photoshop',title:'تصميم إعلان احترافي',desc:'تعلم تصميم إعلان متكامل — من فكرة التصميم إلى التصدير النهائي باحترافية',level:'intermediate',duration:'ساعتان',price:17,lessons:generateLessons('ps',psTitles.slice(0,15),'ps'),
+  {id:'ps-ad',cat:'photoshop',title:'صناعة الإعلان البصري',desc:'من الفكرة إلى التصميم النهائي — رحلة كاملة في تصميم الإعلانات التجارية والبوسترات',level:'intermediate',duration:'ساعتان',price:17,lessons:generateLessons('ps',psTitles.slice(0,15),'ps'),
     downloads:[{name:'🎁 Adobe Photoshop 2025',desc:'هدية مقدمة من الموقع — لفتح وتعديل ملفات PSD',url:'https://archive.org/details/adobe.-photoshop-2025l'}]},
-  {id:'premiere-basics',cat:'montage',title:'أساسيات بريمير برو',desc:'تعلم المونتاج من الصفر — قص الفيديو، إضافة تأثيرات، موسيقى، وتصدير احترافي',level:'beginner',duration:'٤ ساعات',price:12,lessons:generateLessons('pr',prTitles,'pr'),
+  {id:'premiere-basics',cat:'montage',title:'مونتاج الفيديو التجاري',desc:'احترف قص وتركيب الفيديو — من المادة الخام إلى فيديو ترويجي جاهز للنشر',level:'beginner',duration:'٤ ساعات',price:12,lessons:generateLessons('pr',prTitles,'pr'),
     downloads:[{name:'🎁 Adobe Premiere Pro 2024',desc:'هدية مقدمة من الموقع — نسخة كاملة',url:'https://archive.org/details/adobe-premiere-pro-2024-v-24.1.0.85'},{name:'Adobe Premiere Pro Portable',desc:'نسخة محمولة بدون تثبيت',url:'https://thehouseofportable.com/2919/adobe-premiere-pro-portable-2026'}]},
-  {id:'capcut',cat:'montage',title:'مونتاج كاب كت المتقدم',desc:'تعلم مونتاج فيديو احترافي على كاب كت — موبايل وديسكتوب مع تأثيرات متقدمة',level:'intermediate',duration:'٣ ساعات',price:15,lessons:generateLessons('cc',ccTitles,'cc'),
+  {id:'capcut',cat:'montage',title:'إنتاج فيديو باحترافية — كاب كت',desc':'تعلم تحرير الفيديو الإحترافي بأدوات كاب كت المتقدمة — من الهاتف إلى الكمبيوتر',level:'intermediate',duration:'٣ ساعات',price:15,lessons:generateLessons('cc',ccTitles,'cc'),
     downloads:[{name:'CapCut Desktop (مجاني رسمي)',desc:'مجاني بالكامل — نسخة الكمبيوتر',url:'https://www.capcut.com/download'},{name:'CapCut Mobile (APK)',desc:'نسخة أندرويد مجانية',url:'https://apkpure.com/capcut'}]},
-  {id:'figma-ui',cat:'figma',title:'تصميم واجهات فيجما',desc:'تعلم تصميم واجهات المستخدم من الصفر — تطبيقات ومواقع باستخدام فيجما',level:'beginner',duration:'٣ ساعات',price:14,lessons:generateLessons('fg',fgTitles,'fg'),
+  {id:'figma-ui',cat:'figma',title:'واجهات المستخدم — فيجما',desc:'من الصفر إلى تصميم واجهات تطبيقات ومواقع متكاملة بأحدث أساليب UX',level:'beginner',duration:'٣ ساعات',price:14,lessons:generateLessons('fg',fgTitles,'fg'),
     downloads:[{name:'Figma Desktop App (مجاني)',desc:'تطبيق سطح المكتب — مجاني بالكامل',url:'https://www.figma.com/downloads/'},{name:'Figma في المتصفح',desc:'استخدم فيجما بدون تحميل',url:'https://www.figma.com'}]},
-  {id:'freelance',cat:'profit',title:'فريلانس والربح من المهارات',desc:'تعلم كيف تبدأ العمل الحر عبر الإنترنت وتكسب من مهاراتك الرقمية',level:'beginner',duration:'ساعتان',price:10,lessons:generateLessons('fr',frTitles,'fr'),
+  {id:'freelance',cat:'profit',title:'الربح من المهارات الرقمية',desc:'دليل عملي لبدء العمل الحر عبر الإنترنت — بناء الملف، التسعير، التسويق، وإدارة المشاريع',level:'beginner',duration:'ساعتان',price:10,lessons:generateLessons('fr',frTitles,'fr'),
     downloads:[{name:'📄 نموذج عقد عمل حر',desc:'قالب من مستقل — جاهز للتعديل',url:'https://mostaql.com/handbook/freelance-contract'},{name:'🌐 منصات العمل الحر',desc:'مستقل — أكبر منصة عربية',url:'https://mostaql.com'},{name:'💼 موقع Upwork',desc:'أكبر منصة عالمية للعمل الحر',url:'https://www.upwork.com'}]}
 ];
 
@@ -1268,7 +1273,19 @@ function openLesson(idx){
   currentLesson=idx;
   const lesson=currentCourse.lessons[idx];
   document.getElementById('lessonTitle').textContent=`${t('lesson')} ${idx+1}: ${lesson.title}`;
-  document.getElementById('lessonVideo').src=lesson.video;
+  const player=document.getElementById('lessonVideo');
+  const ph=document.getElementById('videoPlaceholder');
+  if(lesson.video&&lesson.video.includes('youtube.com/embed/')&&lesson.video.split('/').pop().length>5){
+    player.src=lesson.video;
+    player.style.display='block';
+    ph.style.display='none';
+  } else {
+    player.src='';
+    player.style.display='none';
+    ph.style.display='flex';
+    document.getElementById('phTitle').textContent=lesson.title;
+    document.getElementById('phDesc').textContent=currentLang==='en'?'Upload your screen recording to YouTube and replace the video link':'قم برفع فيديو الشاشة الخاص بك على يوتيوب واستبدل الرابط';
+  }
   renderAssignment(lesson);
   document.getElementById('lessonViewer').classList.add('active');
   document.getElementById('lessonViewer').scrollIntoView({behavior:'smooth'});
@@ -1338,6 +1355,8 @@ function retryAssignment(){
 function closeLesson(){
   document.getElementById('lessonViewer').classList.remove('active');
   document.getElementById('lessonVideo').src='';
+  document.getElementById('lessonVideo').style.display='none';
+  document.getElementById('videoPlaceholder').style.display='flex';
   assignmentAttempted=false;
   renderLessonList();
   if(currentCourse)renderCourseDetail();
