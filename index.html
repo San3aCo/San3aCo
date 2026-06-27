@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صنعة — منصة المهارات الرقمية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Tajawal',sans-serif;background:#f0f2f5;color:#1a1a2e;direction:rtl;min-height:100vh;display:flex;flex-direction:column}
+header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:900;cursor:pointer}
+.logo svg{width:32px;height:32px;fill:#f7c948}
+.logo span{color:#f7c948}
+.header-left{display:flex;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;transition:all .2s;text-decoration:none}
+.btn-primary{background:#f7c948;color:#1a1a2e}
+.btn-primary:hover{background:#e5b532;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3)}
+.btn-outline:hover{border-color:#f7c948;color:#f7c948}
+.btn-sm{padding:5px 12px;font-size:12px}
+.btn-secondary{background:#2d3a5e;color:#fff}
+.btn-secondary:hover{background:#3d4a6e}
+.btn-success{background:#28a745;color:#fff}
+.btn-success:hover{background:#218838}
+.btn-danger{background:#dc3545;color:#fff}
+.btn-danger:hover{background:#c82333}
+.container{flex:1;max-width:1200px;margin:0 auto;padding:20px;width:100%}
+.page{display:none;animation:fadeIn .3s}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.hero{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:40px 32px;margin-bottom:28px;color:#fff;text-align:center}
+.hero h1{font-size:32px;font-weight:900;margin-bottom:10px}
+.hero h1 span{color:#f7c948}
+.hero p{font-size:16px;opacity:.9;max-width:560px;margin:0 auto 20px}
+.hero-stats{display:flex;justify-content:center;gap:32px;margin-top:20px}
+.hero-stats div{text-align:center}
+.hero-stats strong{display:block;font-size:24px;color:#f7c948}
+.hero-stats span{font-size:13px;opacity:.8}
+.section-title{font-size:22px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.section-title:after{content:'';flex:1;height:2px;background:#ddd;margin-right:12px}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:32px}
+.cat-card{background:#fff;border-radius:12px;padding:18px 10px;text-align:center;cursor:pointer;transition:all .2s;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cat-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1);border-color:#f7c948}
+.cat-card svg{width:44px;height:44px;margin-bottom:6px}
+.cat-card h3{font-size:14px;font-weight:700}
+.cat-card p{font-size:11px;color:#666;margin-top:4px}
+.cat-card .count{display:inline-block;background:#f7c948;color:#1a1a2e;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-top:6px}
+.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:32px}
+.course-card{background:#fff;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06);border:2px solid transparent}
+.course-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1);border-color:#f7c948}
+.course-thumb{height:130px;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative}
+.course-thumb .badge{position:absolute;top:10px;left:10px;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;background:#f7c948;color:#1a1a2e}
+.course-info{padding:14px}
+.course-info h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.course-info .meta{display:flex;gap:10px;font-size:11px;color:#666;margin-bottom:6px}
+.course-info .desc{font-size:12px;color:#444;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.course-info .level{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.level-beginner{background:#d4edda;color:#155724}
+.level-intermediate{background:#fff3cd;color:#856404}
+.level-advanced{background:#f8d7da;color:#721c24}
+.course-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid #eee}
+.course-footer .price{font-weight:900;font-size:16px;color:#1a1a2e}
+.course-footer .lessons{font-size:11px;color:#666}
+.course-detail-header{background:#fff;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.course-detail-header .back{display:inline-flex;align-items:center;gap:6px;color:#666;cursor:pointer;font-size:13px;margin-bottom:10px}
+.course-detail-header .back:hover{color:#f7c948}
+.course-detail-header h1{font-size:24px;font-weight:900;margin-bottom:6px}
+.course-detail-header .meta{display:flex;gap:14px;font-size:13px;color:#666;margin-bottom:10px;flex-wrap:wrap}
+.course-detail-header p{font-size:14px;color:#444;line-height:1.6;margin-bottom:14px}
+.enroll-section{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.enroll-section .price-big{font-size:28px;font-weight:900;color:#1a1a2e}
+.lesson-list{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.lesson-item{display:flex;align-items:center;gap:10px;padding:14px 18px;cursor:pointer;transition:all .15s;border-bottom:1px solid #f0f0f0}
+.lesson-item:last-child{border:none}
+.lesson-item:hover{background:#f8f9fa}
+.lesson-item .num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.lesson-item .num.locked{background:#e9ecef;color:#999}
+.lesson-item .num.unlocked{background:#f7c948;color:#1a1a2e}
+.lesson-item .num.completed{background:#28a745;color:#fff}
+.lesson-item .info{flex:1}
+.lesson-item .info h4{font-size:14px;font-weight:700}
+.lesson-item .info span{font-size:11px;color:#666}
+.lesson-item .status-icon{font-size:16px}
+.lesson-viewer{display:none;margin-top:16px}
+.lesson-viewer.active{display:block}
+.lesson-top-bar{display:flex;align-items:center;justify-content:space-between;background:#fff;padding:10px 18px;border-radius:12px 12px 0 0;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.lesson-top-bar h2{font-size:16px;font-weight:700}
+.video-container{background:#000;text-align:center;position:relative;width:100%;max-width:960px;margin:0 auto}
+.video-container iframe{width:100%;aspect-ratio:16/9;border:none;display:block}
+.assignment-box{background:#fff;padding:20px;border-radius:0 0 12px 12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.assignment-box h3{font-size:16px;font-weight:700;margin-bottom:12px;color:#1a1a2e}
+.assignment-box .q-item{margin-bottom:14px;padding:12px;background:#f8f9fa;border-radius:8px;border-right:3px solid #f7c948}
+.assignment-box .q-item p{font-size:14px;font-weight:500;margin-bottom:8px}
+.assignment-box .q-item label{display:block;font-size:13px;padding:6px 8px;cursor:pointer;border-radius:6px;transition:background .15s}
+.assignment-box .q-item label:hover{background:#fff8e1}
+.assignment-box .q-item label input{margin-left:8px}
+.assignment-result{text-align:center;padding:14px;border-radius:8px;margin-top:12px;font-weight:700;font-size:16px}
+.assignment-result.pass{background:#d4edda;color:#155724}
+.assignment-result.fail{background:#f8d7da;color:#721c24}
+.dashboard-grid{display:grid;grid-template-columns:1fr 2fr;gap:18px;margin-bottom:32px}
+.dash-card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.dash-card h3{font-size:15px;font-weight:700;margin-bottom:10px}
+.dash-stat{text-align:center;padding:6px}
+.dash-stat .num{font-size:28px;font-weight:900;color:#f7c948}
+.dash-stat .label{font-size:12px;color:#666}
+.my-course-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.my-course-item:last-child{border:none}
+.my-course-item .thumb{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.my-course-item .info{flex:1}
+.my-course-item .info h4{font-size:13px;font-weight:700}
+.my-course-item .info .prog-text{font-size:11px;color:#666}
+.my-course-item .mini-bar{height:4px;background:#e9ecef;border-radius:2px;overflow:hidden;margin-top:3px}
+.my-course-item .mini-bar div{height:100%;background:#f7c948;border-radius:2px}
+.certificate-card{background:#fff;border:3px solid #f7c948;border-radius:16px;padding:24px;text-align:center;position:relative;overflow:hidden}
+.certificate-card:before{content:'';position:absolute;top:-30px;right:-30px;width:80px;height:80px;border-radius:50%;background:#f7c948;opacity:.1}
+.certificate-card .seal{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#f7c948,#e5b532);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;box-shadow:0 4px 12px rgba(247,201,72,.3)}
+.certificate-card h2{font-size:20px;font-weight:900;margin-bottom:4px}
+.certificate-card .sub{font-size:12px;color:#666;margin-bottom:12px}
+.certificate-card .details{font-size:12px;color:#333;line-height:1.8;margin-bottom:12px}
+.certificate-card .cert-id{font-size:10px;color:#999;direction:ltr}
+.admin-badge{display:inline-flex;align-items:center;gap:4px;background:#f7c948;color:#1a1a2e;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700}
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;animation:fadeIn .2s}
+.modal-overlay.active{display:flex}
+.modal{background:#fff;border-radius:16px;padding:28px;max-width:500px;width:90%;max-height:90vh;overflow-y:auto;animation:slideUp .3s}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.modal h2{font-size:22px;font-weight:900;margin-bottom:6px;text-align:center}
+.modal .sub{text-align:center;color:#666;margin-bottom:20px;font-size:14px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-weight:700;margin-bottom:4px;font-size:13px}
+.form-group input{width:100%;padding:10px 14px;border:2px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;transition:border-color .2s}
+.form-group input:focus{border-color:#f7c948;outline:none}
+.form-group .hint{font-size:11px;color:#666;margin-top:4px}
+.download-section{background:#fff;border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.download-section h3{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.download-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f8f9fa;border-radius:8px;margin-bottom:8px;border-right:3px solid #f7c948}
+.download-item:last-child{margin-bottom:0}
+.download-item .info{flex:1}
+.download-item .info h4{font-size:13px;font-weight:700}
+.download-item .info span{font-size:11px;color:#666}
+.download-item .dl-btn{background:#f7c948;color:#1a1a2e;padding:6px 16px;border-radius:6px;font-size:12px;font-weight:700;border:none;cursor:pointer;text-decoration:none;transition:background .2s}
+.download-item .dl-btn:hover{background:#e5b532}
+.cert-list{display:grid;gap:14px}
+.admin-panel{background:#fff8e1;border:2px solid #f7c948;border-radius:12px;padding:18px;margin-top:12px}
+.admin-panel h3{font-size:15px;font-weight:700;margin-bottom:8px}
+.admin-panel p{font-size:13px;color:#666;margin-bottom:10px}
+.admin-toggle-btn{position:fixed;bottom:20px;left:20px;z-index:150;width:44px;height:44px;border-radius:50%;background:#1a1a2e;color:#fff;border:none;cursor:pointer;font-size:18px;box-shadow:0 4px 16px rgba(0,0,0,.2);transition:transform .2s}
+.admin-toggle-btn:hover{transform:scale(1.1)}
+.text-center{text-align:center}.mt-16{margin-top:16px}.mb-16{margin-bottom:16px}.mt-8{margin-top:8px}.gap-8{display:flex;gap:8px;flex-wrap:wrap}.flex-center{display:flex;align-items:center;justify-content:center}
+@media(max-width:768px){
+  .hero{padding:28px 16px}.hero h1{font-size:22px}.hero-stats{gap:16px}
+  .cat-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+  .dashboard-grid{grid-template-columns:1fr}.course-grid{grid-template-columns:1fr}
+  .modal{padding:20px}.download-item{flex-direction:column;gap:8px;align-items:stretch}
+  .download-item .dl-btn{text-align:center}
+}
+@media(max-width:480px){
+  .cat-grid{grid-template-columns:repeat(2,1fr)}.container{padding:10px}
+  header{padding:10px 14px}.logo{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="showHome()">
+    <svg viewBox="0 0 36 36" onclick="onLogoClick()"><path d="M18 2L4 12v22h28V12L18 2zm0 4.5L28 14v18H8V14l10-7.5zM12 18h12v2H12v-2zm0 4h12v2H12v-2zm0 4h8v2h-8v-2z"/></svg>
+    <span onclick="onLogoClick()">صُنعة</span>
+  </div>
+  <div class="header-left">
+    <span id="adminBadge" style="display:none" class="admin-badge">أدمن</span>
+    <span id="userBadge" style="display:none;font-size:12px;color:#f7c948;font-weight:700" class="admin-badge"></span>
+    <button class="btn btn-outline btn-sm" id="langBtn" onclick="toggleLang()" style="min-width:42px">🇬🇧 EN</button>
+    <button class="btn btn-outline btn-sm" onclick="showDashboard()" id="dashBtn">حسابي</button>
+    <button class="btn btn-primary btn-sm" id="authBtn" onclick="showAuthModal()">تسجيل الدخول</button>
+    <button class="btn btn-sm btn-secondary" id="logoutBtn" style="display:none" onclick="logoutUser()">تسجيل الخروج</button>
+  </div>
+</header>
+
+<div class="container">
+  <div id="page-home" class="page active">
+    <div class="hero">
+      <h1>اتعلم <span>صنعة</span> رقمية تكسب منها</h1>
+      <p>أول منصة عربية لتعلم المهارات الرقمية — فوتوشوب، مونتاج، تصميم واجهات، والربح من شغلك — فيديوهات تفاعلية مع واجبات وشهادات معتمدة</p>
+      <button class="btn btn-primary" onclick="scrollToCats()">تصفح الكورسات</button>
+      <div class="hero-stats">
+        <div><strong>٦</strong><span>كورسات متكاملة</span></div>
+        <div><strong>١٥</strong><span>درس فيديو لكل كورس</span></div>
+        <div><strong>شهادة</strong><span>معتمدة بعد الإكمال</span></div>
+      </div>
+    </div>
+    <div class="section-title">التخصصات</div>
+    <div class="cat-grid" id="catGrid"></div>
+    <div class="section-title">الكورسات المميزة</div>
+    <div class="course-grid" id="featuredGrid"></div>
+    <div class="text-center mt-16 mb-16">
+      <button class="btn btn-secondary" onclick="showAllCourses()">عرض كل الكورسات</button>
+    </div>
+  </div>
+
+  <div id="page-category" class="page">
+    <button class="btn btn-secondary btn-sm" onclick="showHome()" style="margin-bottom:14px"><span class="back-text">← الرجوع للرئيسية</span></button>
+    <div id="catHeader"></div>
+    <div class="course-grid" id="catCourseGrid"></div>
+  </div>
+
+  <div id="page-allcourses" class="page">
+    <button class="btn btn-secondary btn-sm" onclick="showHome()" style="margin-bottom:14px"><span class="back-text">← الرجوع للرئيسية</span></button>
+    <div class="section-title" id="allCoursesTitle">كل الكورسات</div>
+    <div class="course-grid" id="allCourseGrid"></div>
+  </div>
+
+  <div id="page-course" class="page">
+    <div class="course-detail-header" id="courseHeader"></div>
+    <div id="downloadSection"></div>
+    <div class="section-title" id="lessonsSectionTitle">الدروس</div>
+    <div class="lesson-list" id="lessonList"></div>
+    <div class="lesson-viewer" id="lessonViewer">
+      <div class="lesson-top-bar">
+        <button class="btn btn-sm btn-secondary" onclick="closeLesson()">✕ رجوع</button>
+        <h2 id="lessonTitle">الدرس</h2>
+      </div>
+      <div class="video-container" id="videoContainer">
+        <iframe id="lessonVideo" src="" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="assignment-box" id="assignmentBox"></div>
+    </div>
+  </div>
+
+  <div id="page-dashboard" class="page">
+    <div class="section-title">حسابي</div>
+    <div class="dashboard-grid">
+      <div>
+        <div class="dash-card">
+          <h3 id="statsTitle">إحصائياتي</h3>
+          <div class="dash-stat"><div class="num" id="dashEnrolled">0</div><div class="label" id="enrolledLabel">الكورسات المسجلة</div></div>
+          <div class="dash-stat"><div class="num" id="dashCompleted">0</div><div class="label" id="completedLabel">الدروس المكتملة</div></div>
+          <div class="dash-stat"><div class="num" id="dashPct">٠٪</div><div class="label" id="progressLabel">متوسط الإنجاز</div></div>
+        </div>
+        <div class="dash-card">
+          <h3 id="certNameTitle">الاسم في الشهادة</h3>
+          <div class="form-group" style="margin-bottom:0">
+            <input type="text" id="learnerNameInput" placeholder="أدخل اسمك الكامل" onchange="saveLearnerName()" style="width:100%;padding:10px 14px;border:2px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px">
+          </div>
+          <div id="certNameHint" style="font-size:11px;color:#666;margin-top:4px">الاسم الذي سيظهر على الشهادة</div>
+        </div>
+        <div class="dash-card" id="adminPanel" style="display:none">
+          <div class="admin-panel" id="adminPanelInner">
+            <h3 id="adminPanelTitle">🔧 لوحة الأدمن</h3>
+            <p id="adminPanelMsg">أنت مسجل كأدمن — جميع الكورسات مفتوحة لك.</p>
+            <div style="background:#fff;border-radius:8px;padding:12px;margin-bottom:10px">
+              <div style="font-size:12px;color:#666" id="dailyCodeLabel">كود اليوم:</div>
+              <div style="font-size:24px;font-weight:900;letter-spacing:3px;direction:ltr;text-align:center;color:#1a1a2e" id="adminDailyCode">------</div>
+              <div style="font-size:11px;color:#999;text-align:center;margin-top:4px" id="codeExpiryLabel">ينتهي منتصف الليل</div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="localStorage.removeItem('san3a_admin');adminMode=false;document.getElementById('adminPanel').style.display='none';document.getElementById('adminBadge').style.display='none';updateAuthUI()" id="adminLogoutBtn">تسجيل الخروج من الأدمن</button>
+          </div>
+        </div>
+      </div>
+      <div class="dash-card">
+        <h3 id="myCoursesTitle">كورساتي</h3>
+        <div id="myCoursesList"><div style="color:#666;text-align:center;padding:16px">لم تسجل في أي كورس بعد</div></div>
+        <h3 style="margin-top:16px" id="certificatesTitle">الشهادات</h3>
+        <div id="certificatesList"><div style="color:#666;text-align:center;padding:16px">لا توجد شهادات بعد — أكمل كورساً كاملاً لتحصل على شهادتك</div></div>
+      </div>
+    </div>
+    <div class="text-center"><button class="btn btn-secondary" onclick="showHome()">تصفح الكورسات</button></div>
+  </div>
+</div>
+
+<!-- Admin button removed — hidden activation via San3a.co -->
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <div style="display:flex;gap:0;margin-bottom:16px;border-radius:8px;overflow:hidden">
+      <button class="btn auth-tab" id="loginTab" onclick="switchAuthTab('login')" style="flex:1;border-radius:0;background:#f7c948;color:#1a1a2e">تسجيل الدخول</button>
+      <button class="btn auth-tab" id="signupTab" onclick="switchAuthTab('signup')" style="flex:1;border-radius:0;background:#e9ecef;color:#666">إنشاء حساب</button>
+    </div>
+
+    <div id="authLogin">
+      <div class="form-group">
+        <label id="loginEmailLabel">البريد الإلكتروني</label>
+        <input type="email" id="loginEmail" placeholder="example@email.com">
+      </div>
+      <div class="form-group">
+        <label id="loginPassLabel">كلمة المرور</label>
+        <input type="password" id="loginPass" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')submitLogin()">
+      </div>
+      <button class="btn btn-primary" onclick="submitLogin()" style="width:100%;justify-content:center" id="loginBtn">تسجيل الدخول</button>
+      <div id="authError" style="color:#dc3545;font-size:13px;margin-top:8px;text-align:center;display:none"></div>
+      <div class="text-center" style="margin-top:10px">
+        <span style="font-size:12px;color:#888;cursor:pointer" onclick="switchAuthTab('signup')">ليس لديك حساب؟ إنشاء حساب جديد</span>
+      </div>
+      <div class="text-center" style="margin-top:6px">
+        <span style="font-size:11px;color:#999;cursor:pointer" onclick="showAdminLogin()">تسجيل الدخول كأدمن</span>
+      </div>
+    </div>
+
+    <div id="authSignup" style="display:none">
+      <div class="form-group">
+        <label id="signupNameLabel">الاسم الكامل</label>
+        <input type="text" id="signupName" placeholder="اسمك كما سيظهر في الشهادة">
+      </div>
+      <div class="form-group">
+        <label id="signupEmailLabel">البريد الإلكتروني</label>
+        <input type="email" id="signupEmail" placeholder="example@email.com">
+      </div>
+      <div class="form-group">
+        <label id="signupPassLabel">كلمة المرور</label>
+        <input type="password" id="signupPass" placeholder="٦ أحرف أو أكثر">
+      </div>
+      <button class="btn btn-primary" onclick="submitSignup()" style="width:100%;justify-content:center" id="signupBtn">إنشاء حساب</button>
+      <div id="signupError" style="color:#dc3545;font-size:13px;margin-top:8px;text-align:center;display:none"></div>
+      <div class="text-center" style="margin-top:10px">
+        <span style="font-size:12px;color:#888;cursor:pointer" onclick="switchAuthTab('login')">لديك حساب بالفعل؟ تسجيل الدخول</span>
+      </div>
+    </div>
+
+    <div id="authAdmin" style="display:none">
+      <div class="form-group">
+        <label>كود الأدمن</label>
+        <input type="password" id="adminCodeInput" placeholder="أدخل الكود" onkeydown="if(event.key==='Enter')submitAdminCode()">
+      </div>
+      <button class="btn btn-primary" onclick="submitAdminCode()" style="width:100%;justify-content:center">تسجيل الدخول</button>
+      <div id="adminError" style="color:#dc3545;font-size:13px;margin-top:8px;text-align:center;display:none">كود غير صحيح</div>
+      <div class="text-center" style="margin-top:10px">
+        <span style="font-size:12px;color:#888;cursor:pointer" onclick="switchAuthTab('login')">رجوع لتسجيل الدخول</span>
+      </div>
+    </div>
+
+    <div class="text-center" style="margin-top:12px">
+      <span style="font-size:12px;color:#666;cursor:pointer" onclick="closeAuthModal()" id="authCancelBtn">إلغاء</span>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="dailyCodeModal">
+  <div class="modal">
+    <h2 id="codeModalTitle">🔐 كود الدخول اليومي</h2>
+    <p class="sub" id="codeModalSub">أدخل كود اليوم الذي حصلت عليه من بوت التليجرام</p>
+    <div class="form-group">
+      <label id="codeInputLabel">كود اليوم</label>
+      <input type="text" id="dailyCodeInput" placeholder="مثال: A3B7K9X2" maxlength="8" style="direction:ltr;text-align:center;font-size:20px;letter-spacing:3px;font-weight:700" onkeydown="if(event.key==='Enter')submitDailyCode()">
+    </div>
+    <button class="btn btn-primary" onclick="submitDailyCode()" style="width:100%;justify-content:center" id="codeSubmitBtn">تأكيد الكود</button>
+    <div id="dailyCodeError" style="color:#dc3545;font-size:13px;margin-top:8px;text-align:center;display:none">كود غير صحيح — حاول مرة أخرى</div>
+    <div id="dailyCodeSuccess" style="color:#28a745;font-size:13px;margin-top:8px;text-align:center;display:none">✅ تم التحقق! الكورسات مفتوحة لمدة 24 ساعة</div>
+    <div class="text-center" style="margin-top:12px">
+      <span style="font-size:12px;color:#666;cursor:pointer" onclick="closeDailyCodeModal()" id="codeCancelBtn">إلغاء</span>
+    </div>
+    <div class="text-center" style="margin-top:8px">
+      <span style="font-size:11px;color:#999" id="codeBotHint">للحصول على الكود اليومي، أرسل كلمة الاشتراك إلى البوت: @San3aCoursesBot</span>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="subscribeModal">
+  <div class="modal">
+    <h2 id="subModalTitle">اشتراك الكورس</h2>
+    <p class="sub" id="subModalSub">للحصول على الكورس كاملاً، يرجى التواصل عبر الإيميل التالي</p>
+    <div class="flex-center" style="flex-direction:column;gap:8px;padding:24px 0">
+      <div style="font-size:32px">📧</div>
+      <div style="font-size:18px;font-weight:700;direction:ltr;background:#f8f9fa;padding:12px 24px;border-radius:8px" id="subscribeEmail">san3a.courses.co@gmail.com</div>
+      <p style="font-size:13px;color:#666" id="subModalHint">أرسل اسم الكورس الذي تريد الاشتراك فيه وسيتم التواصل معك</p>
+    </div>
+    <button class="btn btn-secondary" onclick="closeSubscribeModal()" style="width:100%;justify-content:center" id="subModalBtn">تم — فهمت</button>
+  </div>
+</div>
+
+<script>
+const en={
+  siteName:'San3a',
+  siteDesc:'Learn a digital craft to earn from',
+  siteSlogan:'The first Arabic platform for learning digital skills — Photoshop, Video Editing, UI/UX Design, and freelancing — interactive videos with assignments and certificates.',
+  heroTitle:'Learn a <span>digital craft</span> to earn from',
+  heroBtn:'Browse Courses',
+  heroStat1:'Complete Courses',
+  heroStat2:'Video Lessons',
+  heroStat3:'Certificate',
+  catsTitle:'Categories',
+  featuredTitle:'Featured Courses',
+  showAll:'View All Courses',
+  backHome:'← Back to Home',
+  backCourses:'← Back to Courses',
+  allCourses:'All Courses',
+  myAccount:'My Account',
+  login:'Login',
+  signup:'Sign Up',
+  logout:'Logout',
+  loginTitle:'Login',
+  signupTitle:'Create Account',
+  email:'Email',
+  password:'Password',
+  fullName:'Full Name',
+  noAccount:'Don\'t have an account? Create one',
+  haveAccount:'Already have an account? Login',
+  adminLogin:'Login as Admin',
+  adminCode:'Admin Code',
+  subscribe:'Subscribe',
+  subTitle:'Course Subscription',
+  subDesc:'To get the full course, please contact us via email:',
+  subHint:'Send the course name you want to subscribe to and we will contact you',
+  subBtn:'OK — Understood',
+  adminPanel:'🔧 Admin Panel',
+  adminMsg:'You are logged in as admin — all courses are unlocked.',
+  adminLogout:'Logout from Admin',
+  dashboard:'Dashboard',
+  dashboardTitle:'My Account',
+  myStats:'My Statistics',
+  enrolledCourses:'Enrolled Courses',
+  completedLessons:'Completed Lessons',
+  avgProgress:'Average Progress',
+  certNameLabel:'Name on Certificate',
+  certNamePlaceholder:'Enter your full name',
+  certNameHint:'This name will appear on your certificate',
+  myCourses:'My Courses',
+  certificates:'Certificates',
+  noCourses:'No courses enrolled yet',
+  noCerts:'No certificates yet — complete a full course to get your certificate',
+  courses:'courses',
+  lessons:'lessons',
+  lesson:'Lesson',
+  videoPlusAssignment:'Video + Assignment',
+  downloadSection:'⬇ Download Software',
+  downloadLabel:'Download',
+  assignmentTitle:'📝 Lesson Assignment',
+  assignmentHint:'Answer the following questions (3 out of 4 correct = pass)',
+  submitAnswers:'Confirm Answers',
+  retry:'Retry',
+  backToLessons:'Back to Lessons',
+  successMsg:'✅ Success! {n}/4 — Lesson completed ✓',
+  failMsg:'❌ Sorry, {n}/4 — You need 3 out of 4 to pass. Try again',
+  freeLessons:'First 2 lessons free',
+  enrolledTag:'Enrolled',
+  paidTag:'Paid',
+  beginner:'Beginner',
+  intermediate:'Intermediate',
+  advanced:'Advanced',
+  youAreEnrolled:'✓ You are enrolled in this course',
+  buyCourse:'Subscribe to Full Course',
+  level:'Level',
+  duration:'Duration',
+  mustLogin:'Please log in first to access this course',
+  passRequirement:'3 out of 4 correct = pass',
+  printCert:'🖨 Print Certificate',
+  certTitle:'Certificate of Completion',
+  certSub:'San3a certifies that',
+  certCompleted:'has successfully completed the course',
+  certRate:'with a rate of',
+  adminBadge:'Admin',
+  userBadge:'User',
+  cancel:'Cancel',
+  egp:'EGP',
+  dashboardDesc:'Manage your learning journey',
+  emptyCart:'No courses enrolled yet',
+  save:'Save',
+  langEn:'🇬🇧 EN',
+  langAr:'🇸🇦 AR',
+  signupSuccess:'Account created successfully! You can now log in',
+  signupPassError:'Password must be at least 6 characters',
+  signupEmailError:'This email is already registered',
+  loginError:'Incorrect email or password',
+  fillFields:'Please fill in all fields',
+  freeDownload:'Free Version',
+  gift:'🎁 Gift from the site',
+  codeModalTitle:'🔐 Daily Access Code',
+  codeModalSub:'Enter today\'s code from the Telegram bot',
+  codeInputLabel:'Today\'s Code',
+  codeSubmitBtn:'Confirm Code',
+  codeCancelBtn:'Cancel',
+  codeBotHint:'To get the daily code, send your subscription word to the bot: @San3aCoursesBot',
+  codeSuccess:'✅ Verified! Courses unlocked for 24 hours',
+  codeError:'Invalid code — try again',
+  codeRenew:'Renew Code',
+  codeExpires:'Code expires at midnight',
+  subscriptionWord:'Subscription Word',
+  subscriptionWordPlaceholder:'Enter the word given by admin',
+  subscriptionWordHint:'This word was sent to you when you subscribed',
+  subscribeConfirm:'Subscribe User',
+  dailyCodeLabel:'Today\'s Code',
+  adminSecret:'Admin Secret Code',
+  enterSecret:'Enter the secret code to access admin panel',
+  logoClickHint:'(click the logo 7 times)',
+  telegramBot:'🤖 Telegram Bot',
+  telegramHint:'Get the daily code from our bot',
+  alreadySubscribed:'Already subscribed',
+  notSubscribed:'Not subscribed',
+  subscribeNow:'Subscribe Now'
+};
+
+const ar={
+  siteName:'صُنعة',
+  siteDesc:'اتعلم صنعة رقمية تكسب منها',
+  siteSlogan:'أول منصة عربية لتعلم المهارات الرقمية — فوتوشوب، مونتاج، تصميم واجهات، والربح من شغلك — فيديوهات تفاعلية مع واجبات وشهادات معتمدة',
+  heroTitle:'اتعلم <span>صنعة</span> رقمية تكسب منها',
+  heroBtn:'تصفح الكورسات',
+  heroStat1:'كورسات متكاملة',
+  heroStat2:'درس فيديو لكل كورس',
+  heroStat3:'شهادة معتمدة',
+  catsTitle:'التخصصات',
+  featuredTitle:'الكورسات المميزة',
+  showAll:'عرض كل الكورسات',
+  backHome:'← الرجوع للرئيسية',
+  backCourses:'← الرجوع للكورسات',
+  allCourses:'كل الكورسات',
+  myAccount:'حسابي',
+  login:'تسجيل الدخول',
+  signup:'إنشاء حساب',
+  logout:'تسجيل الخروج',
+  loginTitle:'تسجيل الدخول',
+  signupTitle:'إنشاء حساب',
+  email:'البريد الإلكتروني',
+  password:'كلمة المرور',
+  fullName:'الاسم الكامل',
+  noAccount:'ليس لديك حساب؟ إنشاء حساب جديد',
+  haveAccount:'لديك حساب بالفعل؟ تسجيل الدخول',
+  adminLogin:'تسجيل الدخول كأدمن',
+  adminCode:'كود الأدمن',
+  subscribe:'اشتراك',
+  subTitle:'اشتراك الكورس',
+  subDesc:'للحصول على الكورس كاملاً، يرجى التواصل عبر الإيميل التالي',
+  subHint:'أرسل اسم الكورس الذي تريد الاشتراك فيه وسيتم التواصل معك',
+  subBtn:'تم — فهمت',
+  adminPanel:'🔧 لوحة الأدمن',
+  adminMsg:'أنت مسجل كأدمن — جميع الكورسات مفتوحة لك.',
+  adminLogout:'تسجيل الخروج من الأدمن',
+  dashboard:'حسابي',
+  dashboardTitle:'حسابي',
+  myStats:'إحصائياتي',
+  enrolledCourses:'الكورسات المسجلة',
+  completedLessons:'الدروس المكتملة',
+  avgProgress:'متوسط الإنجاز',
+  certNameLabel:'الاسم في الشهادة',
+  certNamePlaceholder:'أدخل اسمك الكامل',
+  certNameHint:'الاسم الذي سيظهر على الشهادة',
+  myCourses:'كورساتي',
+  certificates:'الشهادات',
+  noCourses:'لم تسجل في أي كورس بعد',
+  noCerts:'لا توجد شهادات بعد — أكمل كورساً كاملاً لتحصل على شهادتك',
+  courses:'كورسات',
+  lessons:'دروس',
+  lesson:'الدرس',
+  videoPlusAssignment:'فيديو + واجب',
+  downloadSection:'⬇ تحميل البرامج',
+  downloadLabel:'تحميل',
+  assignmentTitle:'📝 واجب الدرس',
+  assignmentHint:'أجب على الأسئلة التالية (٣ من ٤ صح = نجاح)',
+  submitAnswers:'تأكيد الإجابات',
+  retry:'إعادة المحاولة',
+  backToLessons:'رجوع للدروس',
+  successMsg:'✅ نجاح! {n}/4 — تم إكمال الدرس ✓',
+  failMsg:'❌ للأسف، {n}/4 — تحتاج 3 من 4 للنجاح. حاول مرة أخرى',
+  freeLessons:'أول درسين مجاناً',
+  enrolledTag:'مشترك',
+  paidTag:'مدفوع',
+  beginner:'مبتدئ',
+  intermediate:'متوسط',
+  advanced:'متقدم',
+  youAreEnrolled:'✓ أنت مسجل في هذا الكورس',
+  buyCourse:'اشترِ الكورس كاملاً',
+  level:'المستوى',
+  duration:'المدة',
+  mustLogin:'يرجى تسجيل الدخول أولاً للوصول لهذا الكورس',
+  passRequirement:'٣ من ٤ صح = نجاح',
+  printCert:'🖨 طباعة الشهادة',
+  certTitle:'شهادة إتمام',
+  certSub:'يشهد موقع صُنعة بأن',
+  certCompleted:'قد أكمل بنجاح كورس',
+  certRate:'بمعدل',
+  adminBadge:'أدمن',
+  userBadge:'مستخدم',
+  cancel:'إلغاء',
+  egp:'ج.م',
+  dashboardDesc:'إدارة رحلة التعلم الخاصة بك',
+  emptyCart:'لا توجد كورسات مسجلة بعد',
+  save:'حفظ',
+  langEn:'🇬🇧 EN',
+  langAr:'🇸🇦 AR',
+  signupSuccess:'تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول',
+  signupPassError:'كلمة المرور يجب أن تكون ٦ أحرف على الأقل',
+  signupEmailError:'هذا البريد مسجل بالفعل',
+  loginError:'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+  fillFields:'يرجى ملء جميع الحقول',
+  freeDownload:'النسخة المجانية',
+  gift:'🎁 هدية مقدمة من الموقع',
+  codeModalTitle:'🔐 كود الدخول اليومي',
+  codeModalSub:'أدخل كود اليوم الذي حصلت عليه من بوت التليجرام',
+  codeInputLabel:'كود اليوم',
+  codeSubmitBtn:'تأكيد الكود',
+  codeCancelBtn:'إلغاء',
+  codeBotHint:'للحصول على الكود اليومي، أرسل كلمة الاشتراك إلى البوت: @San3aCoursesBot',
+  codeSuccess:'✅ تم التحقق! الكورسات مفتوحة لمدة 24 ساعة',
+  codeError:'كود غير صحيح — حاول مرة أخرى',
+  codeRenew:'تجديد الكود',
+  codeExpires:'الكود ينتهي منتصف الليل',
+  subscriptionWord:'كلمة الاشتراك',
+  subscriptionWordPlaceholder:'أدخل الكلمة التي أرسلها الأدمن',
+  subscriptionWordHint:'هذه الكلمة أرسلت لك عند الاشتراك',
+  subscribeConfirm:'تأكيد الاشتراك',
+  dailyCodeLabel:'كود اليوم',
+  adminSecret:'كود الأدمن السري',
+  enterSecret:'أدخل الكود السري للوصول للوحة الأدمن',
+  logoClickHint:'(اضغط على الشعار 7 مرات)',
+  telegramBot:'🤖 بوت التليجرام',
+  telegramHint:'احصل على الكود اليومي من البوت',
+  alreadySubscribed:'مشترك بالفعل',
+  notSubscribed:'غير مشترك',
+  subscribeNow:'اشترك الآن'
+};
+
+let currentLang=localStorage.getItem('san3a_lang')||'ar';
+
+function t(key,replacements={}){
+  const txt=(currentLang==='en'?en:ar)[key]||key;
+  if(replacements.n!==undefined) return txt.replace('{n}',replacements.n);
+  return txt;
+}
+
+function toggleLang(){
+  currentLang=currentLang==='ar'?'en':'ar';
+  localStorage.setItem('san3a_lang',currentLang);
+  const dir=currentLang==='ar'?'rtl':'ltr';
+  document.documentElement.dir=dir;
+  document.documentElement.lang=currentLang;
+  document.title=t('siteName')+' — '+t('siteDesc');
+  document.getElementById('langBtn').textContent=currentLang==='ar'?t('langEn'):t('langAr');
+  updateUILang();
+  renderCats();
+  renderFeatured();
+  if(currentCourse)renderCourseDetail();
+  updateDashboard();
+}
+
+const dailyCodeSecret='san3a2024';
+
+function getDailyCode(){
+  const d=new Date();
+  const dateStr=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  let hash=0;
+  const str=dateStr+dailyCodeSecret;
+  for(let i=0;i<str.length;i++){
+    const char=str.charCodeAt(i);
+    hash=((hash<<5)-hash)+char;
+    hash=hash&hash;
+  }
+  return Math.abs(hash).toString(36).toUpperCase().slice(0,8);
+}
+
+function getDailyCodeExpiry(){
+  const now=new Date();
+  const midnight=new Date(now);
+  midnight.setHours(24,0,0,0);
+  const hours=Math.floor((midnight-now)/3600000);
+  const mins=Math.floor(((midnight-now)%3600000)/60000);
+  return {hours,mins};
+}
+
+let dailyCodeVerified=localStorage.getItem('san3a_daily_code_date')===new Date().toISOString().slice(0,10)&&localStorage.getItem('san3a_daily_code')==='verified';
+
+function verifyDailyCode(code){
+  return code.toUpperCase().trim()===getDailyCode();
+}
+
+function submitDailyCode(){
+  const code=document.getElementById('dailyCodeInput').value.trim();
+  const errDiv=document.getElementById('dailyCodeError');
+  const successDiv=document.getElementById('dailyCodeSuccess');
+  if(!code){
+    errDiv.textContent=t('fillFields');errDiv.style.display='block';successDiv.style.display='none';return;
+  }
+  if(verifyDailyCode(code)){
+    dailyCodeVerified=true;
+    localStorage.setItem('san3a_daily_code','verified');
+    localStorage.setItem('san3a_daily_code_date',new Date().toISOString().slice(0,10));
+    errDiv.style.display='none';
+    successDiv.textContent=t('codeSuccess');
+    successDiv.style.display='block';
+    setTimeout(()=>{closeDailyCodeModal();if(currentCourse)renderCourseDetail();renderLessonList();},1000);
+  } else {
+    successDiv.style.display='none';
+    errDiv.textContent=t('codeError');
+    errDiv.style.display='block';
+  }
+}
+
+function showDailyCodeModal(){
+  document.getElementById('dailyCodeInput').value='';
+  document.getElementById('dailyCodeError').style.display='none';
+  document.getElementById('dailyCodeSuccess').style.display='none';
+  document.getElementById('dailyCodeModal').classList.add('active');
+}
+
+function closeDailyCodeModal(){
+  document.getElementById('dailyCodeModal').classList.remove('active');
+}
+
+// === HIDDEN ADMIN ACTIVATION ===
+let logoClickCount=0;
+let logoClickTimer=null;
+
+function onLogoClick(){
+  logoClickCount++;
+  if(logoClickTimer)clearTimeout(logoClickTimer);
+  logoClickTimer=setTimeout(()=>{logoClickCount=0;},3000);
+  if(logoClickCount>=7){
+    logoClickCount=0;
+    showAdminLogin();
+    showAuthModal();
+  }
+}
+
+function checkURLAdmin(){
+  const params=new URLSearchParams(window.location.search);
+  const adminParam=params.get('admin');
+  if(adminParam==='San3a.co'||adminParam==='san3a2024'){
+    adminMode=true;
+    localStorage.setItem('san3a_admin','true');
+    document.getElementById('adminBadge').style.display='inline-flex';
+  }
+}
+
+function updateUILang(){
+  document.getElementById('authBtn').textContent=t('login');
+  document.getElementById('dashBtn').textContent=currentUser?currentUser.name:t('myAccount');
+  document.querySelector('.logo span').textContent=t('siteName');
+  const hero=document.querySelector('.hero');
+  if(hero){
+    hero.querySelector('h1').innerHTML=t('heroTitle');
+    hero.querySelector('p').textContent=t('siteSlogan');
+    hero.querySelector('.btn').textContent=t('heroBtn');
+    const stats=hero.querySelectorAll('.hero-stats span');
+    if(stats.length>=3){
+      stats[0].textContent=t('heroStat1');
+      stats[1].textContent=t('heroStat2');
+      stats[2].textContent=t('heroStat3');
+    }
+  }
+  const st=document.querySelectorAll('.section-title');
+  if(st.length>=2){
+    st[0].textContent=t('catsTitle');
+    st[1].textContent=t('featuredTitle');
+  }
+  const showAllBtn=document.querySelector('.text-center.mt-16.mb-16 .btn');
+  if(showAllBtn) showAllBtn.textContent=t('showAll');
+  document.getElementById('subModalTitle').textContent=t('subTitle');
+  document.getElementById('subModalSub').textContent=t('subDesc');
+  document.getElementById('subModalHint').textContent=t('subHint');
+  document.getElementById('subModalBtn').textContent=t('subBtn');
+  document.getElementById('authCancelBtn').textContent=t('cancel');
+  if(document.getElementById('loginBtn')) document.getElementById('loginBtn').textContent=t('login');
+  if(document.getElementById('signupBtn')) document.getElementById('signupBtn').textContent=t('signup');
+  document.getElementById('loginTab').textContent=t('login');
+  document.getElementById('signupTab').textContent=t('signup');
+  if(document.getElementById('loginEmailLabel')) document.getElementById('loginEmailLabel').textContent=t('email');
+  if(document.getElementById('loginPassLabel')) document.getElementById('loginPassLabel').textContent=t('password');
+  if(document.getElementById('signupNameLabel')) document.getElementById('signupNameLabel').textContent=t('fullName');
+  if(document.getElementById('signupEmailLabel')) document.getElementById('signupEmailLabel').textContent=t('email');
+  if(document.getElementById('signupPassLabel')) document.getElementById('signupPassLabel').textContent=t('password');
+  // Dashboard
+  if(document.getElementById('statsTitle')) document.getElementById('statsTitle').textContent=t('myStats');
+  if(document.getElementById('certNameTitle')) document.getElementById('certNameTitle').textContent=t('certNameLabel');
+  if(document.getElementById('learnerNameInput')) document.getElementById('learnerNameInput').placeholder=t('certNamePlaceholder');
+  if(document.getElementById('certNameHint')) document.getElementById('certNameHint').textContent=t('certNameHint');
+  if(document.getElementById('myCoursesTitle')) document.getElementById('myCoursesTitle').textContent=t('myCourses');
+  if(document.getElementById('certificatesTitle')) document.getElementById('certificatesTitle').textContent=t('certificates');
+  if(document.getElementById('enrolledLabel')) document.getElementById('enrolledLabel').textContent=t('enrolledCourses');
+  if(document.getElementById('completedLabel')) document.getElementById('completedLabel').textContent=t('completedLessons');
+  if(document.getElementById('progressLabel')) document.getElementById('progressLabel').textContent=t('avgProgress');
+  // Admin panel
+  if(document.getElementById('adminPanelTitle')) document.getElementById('adminPanelTitle').textContent=t('adminPanel');
+  if(document.getElementById('adminPanelMsg')) document.getElementById('adminPanelMsg').textContent=t('adminMsg');
+  if(document.getElementById('adminLogoutBtn')) document.getElementById('adminLogoutBtn').textContent=t('adminLogout');
+  // Back buttons
+  document.querySelectorAll('.back-text').forEach(el=>el.textContent=t('backHome'));
+  if(document.getElementById('allCoursesTitle')) document.getElementById('allCoursesTitle').textContent=t('allCourses');
+  // Daily code modal
+  if(document.getElementById('codeModalTitle')) document.getElementById('codeModalTitle').textContent=t('codeModalTitle');
+  if(document.getElementById('codeModalSub')) document.getElementById('codeModalSub').textContent=t('codeModalSub');
+  if(document.getElementById('codeInputLabel')) document.getElementById('codeInputLabel').textContent=t('codeInputLabel');
+  if(document.getElementById('codeSubmitBtn')) document.getElementById('codeSubmitBtn').textContent=t('codeSubmitBtn');
+  if(document.getElementById('codeCancelBtn')) document.getElementById('codeCancelBtn').textContent=t('codeCancelBtn');
+  if(document.getElementById('codeBotHint')) document.getElementById('codeBotHint').textContent=t('codeBotHint');
+}
+
+// === AUTH SYSTEM ===
+let users=JSON.parse(localStorage.getItem('san3a_users')||'{}');
+let currentUser=JSON.parse(localStorage.getItem('san3a_current_user')||'null');
+
+function submitSignup(){
+  const name=document.getElementById('signupName').value.trim();
+  const email=document.getElementById('signupEmail').value.trim().toLowerCase();
+  const pass=document.getElementById('signupPass').value;
+  const errDiv=document.getElementById('signupError');
+  if(!name||!email||!pass){
+    errDiv.textContent=t('fillFields');errDiv.style.display='block';return;
+  }
+  if(pass.length<6){
+    errDiv.textContent=t('signupPassError');errDiv.style.display='block';return;
+  }
+  if(users[email]){
+    errDiv.textContent=t('signupEmailError');errDiv.style.display='block';return;
+  }
+  users[email]={name,email,pass,created:Date.now()};
+  localStorage.setItem('san3a_users',JSON.stringify(users));
+  errDiv.style.color='#28a745';
+  errDiv.textContent=t('signupSuccess');
+  errDiv.style.display='block';
+  setTimeout(()=>switchAuthTab('login'),1500);
+}
+
+function submitLogin(){
+  const email=document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass=document.getElementById('loginPass').value;
+  const errDiv=document.getElementById('authError');
+  if(!email||!pass){
+    errDiv.textContent=t('fillFields');errDiv.style.display='block';return;
+  }
+  const user=users[email];
+  if(!user||user.pass!==pass){
+    errDiv.textContent=t('loginError');errDiv.style.display='block';return;
+  }
+  currentUser=user;
+  localStorage.setItem('san3a_current_user',JSON.stringify(user));
+  closeAuthModal();
+  updateAuthUI();
+  if(currentCourse)renderCourseDetail();
+  updateDashboard();
+}
+
+function logoutUser(){
+  currentUser=null;
+  localStorage.removeItem('san3a_current_user');
+  updateAuthUI();
+  showHome();
+  if(currentCourse)renderCourseDetail();
+}
+
+function updateAuthUI(){
+  const authBtn=document.getElementById('authBtn');
+  const logoutBtn=document.getElementById('logoutBtn');
+  const userBadge=document.getElementById('userBadge');
+  if(currentUser){
+    authBtn.style.display='none';
+    logoutBtn.style.display='inline-flex';
+    userBadge.style.display='inline-flex';
+    userBadge.textContent=currentUser.name;
+  } else {
+    authBtn.style.display='inline-flex';
+    authBtn.textContent=t('login');
+    logoutBtn.style.display='none';
+    userBadge.style.display='none';
+  }
+}
+
+function showAuthModal(){
+  document.getElementById('authError').style.display='none';
+  document.getElementById('signupError').style.display='none';
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('signupName').value='';
+  document.getElementById('signupEmail').value='';
+  document.getElementById('signupPass').value='';
+  switchAuthTab('login');
+  document.getElementById('authModal').classList.add('active');
+}
+
+function closeAuthModal(){
+  document.getElementById('authModal').classList.remove('active');
+}
+
+function switchAuthTab(tab){
+  const loginDiv=document.getElementById('authLogin');
+  const signupDiv=document.getElementById('authSignup');
+  const adminDiv=document.getElementById('authAdmin');
+  const loginTab=document.getElementById('loginTab');
+  const signupTab=document.getElementById('signupTab');
+  loginDiv.style.display=tab==='login'?'block':'none';
+  signupDiv.style.display=tab==='signup'?'block':'none';
+  adminDiv.style.display=tab==='admin'?'block':'none';
+  loginTab.style.background=tab==='login'?'#f7c948':'#e9ecef';
+  loginTab.style.color=tab==='login'?'#1a1a2e':'#666';
+  signupTab.style.background=tab==='signup'?'#f7c948':'#e9ecef';
+  signupTab.style.color=tab==='signup'?'#1a1a2e':'#666';
+  if(tab==='admin'){
+    loginTab.style.display='none';
+    signupTab.style.display='none';
+  } else {
+    loginTab.style.display='block';
+    signupTab.style.display='block';
+  }
+}
+
+function showAdminLogin(){
+  switchAuthTab('admin');
+  document.getElementById('adminCodeInput').value='';
+  document.getElementById('adminError').style.display='none';
+}
+
+function submitAdminCode(){
+  const code=document.getElementById('adminCodeInput').value.trim();
+  if(code==='san3a2024'||code==='San3a.co'){
+    adminMode=true;
+    localStorage.setItem('san3a_admin','true');
+    document.getElementById('adminBadge').style.display='inline-flex';
+    closeAuthModal();
+    if(currentCourse)renderCourseDetail();
+    updateDashboard();
+    showHome();
+  } else {
+    document.getElementById('adminError').style.display='block';
+  }
+}
+
+const cats=[
+  {id:'photoshop',name:'فوتوشوب',nameEn:'Photoshop',icon:'🎨',desc:'تصميم جرافيك — تعديل الصور — تصاميم إعلانية',descEn:'Graphic Design — Photo Editing — Ad Designs',color:'#31a8ff'},
+  {id:'montage',name:'مونتاج فيديو',nameEn:'Video Editing',icon:'🎬',desc:'بريمر برو — كاب كت — مونتاج احترافي',descEn:'Premiere Pro — CapCut — Professional Editing',color:'#e74c3c'},
+  {id:'figma',name:'UI/UX فيجما',nameEn:'Figma UI/UX',icon:'🖌️',desc:'تصميم واجهات تطبيقات ومواقع',descEn:'App & Website Interface Design',color:'#a259ff'},
+  {id:'profit',name:'الربح من المهارات',nameEn:'Monetize Skills',icon:'💰',desc:'فريلانس — تسويق — مشاريع رقمية',descEn:'Freelance — Marketing — Digital Projects',color:'#2ecc71'}
+];
+
+function catName(c){return currentLang==='en'?c.nameEn:c.name;}
+function catDesc(c){return currentLang==='en'?c.descEn:c.desc;}
+
+const videoLibs={
+  ps: Array(15).fill('https://www.youtube.com/embed/xTzvQkOll2U'),
+  pr: Array(15).fill('https://www.youtube.com/embed/xDq3ij-oHJA'),
+  fg: Array(15).fill('https://www.youtube.com/embed/QJBP2uy8LcU'),
+  cc: Array(15).fill('https://www.youtube.com/embed/j5_471mO14c'),
+  fr: Array(15).fill('https://www.youtube.com/embed/JC_4JZ2Ciz4')
+};
+
+function generateLessons(courseId, titles, videoKey){
+  return titles.map((t,i)=>{
+    const qs=assignments[courseId]||assignments.default;
+    const qset=qs[i%qs.length];
+    return {id:courseId+'_l'+(i+1),title:t,video:videoLibs[videoKey][i],assignment:{questions:qset.map((q,j)=>({
+      q:q.q.replace('{n}',i+1),options:q.options,correct:q.correct
+    }))}};
+  });
+}
+
+const psTitles=[
+  'واجهة الفوتوشوب والأدوات الأساسية','فهم الطبقات Layers','أدوات التحديد الأساسية','العمل مع الفرش Brush Tool',
+  'إضافة وتنسيق النصوص','الفلاتر والتأثيرات','ضبط الألوان والإضاءة','تصميم بانر إعلاني',
+  'إزالة الخلفية وعزل العناصر','تصدير وحفظ الملفات','دمج الصور والمركّبات','الكتلة النصية المتقدمة',
+  'أنماط الطبقات Layer Styles','تصحيح الألوان المتقدم Color Grading','مشروع تطبيقي: تصميم بوستر كامل'
+];
+const prTitles=[
+  'واجهة بريمير برو ومشروع جديد','قص الفيديو وترتيب Timeline','إضافة موسيقى وتصدير الفيديو','الانتقالات والتأثيرات البصرية',
+  'ضبط الصوت والمؤثرات الصوتية','تصحيح الألوان Lumetri','النصوص والجرافيك المتحرك','تعديل السرعة والتجميد',
+  'المفاتيح الخضراء Chroma Key','العمل مع عدة كاميرات Multi-Cam','إضافة الترجمة والنصوص التوضيحية','التصدير المتقدم والإعدادات',
+  'إتقان الأيقونات الرئيسية','نصائح لتسريع المونتاج','مشروع تطبيقي: مونتاج فيديو كامل'
+];
+const fgTitles=[
+  'واجهة فيجما والأدوات الأساسية','إنشاء Frame وإتقان Auto Layout','الأشكال والنصوص الأساسية','الألوان والتدرجات والتأثيرات',
+  'المكونات Components والخصائص','تصميم واجهة تطبيق جوال','تصميم واجهة موقع ويب','البروتوتايب والتفاعلات',
+  'أنظمة التصميم Design Systems','إضافة الصور والأيقونات','Grids والمسافات','التعاون والمشاركة في الوقت الفعلي',
+  'التصدير للويب والتطبيقات','نصائح UX للمبتدئين','مشروع تطبيقي: واجهة متجر كاملة'
+];
+const ccTitles=[
+  'الواجهة والأدوات في كاب كت','قص وترتيب المقاطع','إضافة تأثيرات وانتقالات','الموسيقى وضبط الصوت',
+  'النصوص والجرافيك المتحرك','تعديل الألوان والفلاتر','المفاتيح الخضراء','الحركة البطيئة والسريعة',
+  'التعليق الصوتي والتسجيل','الطبقات المتعددة في كاب كت','الانتقالات الاحترافية','التصدير والإعدادات',
+  'نصائح لمونتاج احترافي','إضافة الـ Watermark والعنوان','مشروع تطبيقي: فيديو ترويجي كامل'
+];
+const frTitles=[
+  'مقدمة عن العمل الحر','بناء ملف شخصي جذاب','تسعير خدماتك','استراتيجيات جذب العملاء',
+  'التسويق لنفسك على السوشيال ميديا','كتابة عروض احترافية','إدارة المشاريع والوقت','مصادر تعلم مستمرة',
+  'بناء علاقات مع العملاء','التعامل مع الرفض والنقد','رفع جودة أعمالك باستمرار','حسابات وأدوات إدارة المشاريع',
+  'التوسع في الخدمات والأسواق','قصص نجاح ملهمة','خطة العمل لمدة ٦ أشهر'
+];
+
+const psAssign=[
+  [
+    {q:'ما هي الطبقة (Layer) في الفوتوشوب؟',options:['عنصر منفصل يمكن التحكم به','فلتر لوني','أداة تحديد','نوع من الفرش'],correct:0},
+    {q:'ما اختصار إنشاء ملف جديد؟',options:['Ctrl+N','Ctrl+O','Ctrl+S','Ctrl+J'],correct:0},
+    {q:'أي أداة تستخدم لإزالة الخلفية البيضاء بسرعة؟',options:['Magic Wand','Brush Tool','Type Tool','Shape Tool'],correct:0},
+    {q:'ما أفضل صيغة حفظ للتصاميم ذات الشفافية؟',options:['PNG','JPEG','BMP','GIF'],correct:0}
+  ],
+  [
+    {q:'كيف تنسخ طبقة موجودة بسرعة؟',options:['Ctrl+J','Ctrl+C','Ctrl+D','Ctrl+V'],correct:0},
+    {q:'ماذا يفعل Layer Mask؟',options:['يخفي أجزاء من الطبقة','يمسح الطبقة','يدمج الطبقات','يغير لون الطبقة'],correct:0},
+    {q:'أداة النص اختصارها؟',options:['T','N','A','X'],correct:0},
+    {q:'ما أفضل دقة للصور المطبوعة؟',options:['300 PPI','72 PPI','150 PPI','96 PPI'],correct:0}
+  ],
+  [
+    {q:'كيف تدمج طبقتين معاً؟',options:['Ctrl+E','Ctrl+D','Ctrl+M','Ctrl+G'],correct:0},
+    {q:'ما أداة التحديد السريع؟',options:['Quick Selection','Magic Wand','Lasso','Pen'],correct:0},
+    {q:'كيف تحول الطبقة إلى Smart Object؟',options:['انقر يمين ← Convert','Filter ← Convert','Layer ← Smart','Edit ← Convert'],correct:0},
+    {q:'لإظهار لوحة الطبقات نضغط؟',options:['F7','F5','F3','F1'],correct:0}
+  ]
+];
+const prAssign=[
+  [
+    {q:'ما اختصار قص المقطع في بريمير برو؟',options:['Ctrl+K','Ctrl+X','Ctrl+C','Ctrl+B'],correct:0},
+    {q:'ما المسار الصحيح لإضافة الفيديو إلى Timeline؟',options:['اسحب من Project Panel','File → Import','Edit → Add','Double-click timeline'],correct:0},
+    {q:'كيف تفصل الصوت عن الفيديو؟',options:['Ctrl+L','Ctrl+U','Ctrl+D','يمين ← Unlink'],correct:0},
+    {q:'أفضل صيغة تصدير للويب؟',options:['H.264 MP4','AVI','MOV','WMV'],correct:0}
+  ],
+  [
+    {q:'أداة التقطيع في بريمير اسمها؟',options:['Razor','Scissors','Cut','Split'],correct:0},
+    {q:'لماذا نستخدم Ripple Delete؟',options:['يغلق المسافة بعد الحذف','يمسح الصوت','يطبق تأثير','يضيف ترانسشن'],correct:0},
+    {q:'كيف نضبط مستوى الصوت؟',options:['Audio Gain من يمين أو G','Volume من شريط القوائم','Sound → Settings','Edit → Audio'],correct:0},
+    {q:'ما اختصار التصدير؟',options:['Ctrl+M','Ctrl+E','Ctrl+P','Ctrl+T'],correct:0}
+  ],
+  [
+    {q:'أداة Pen Tool تفيد في؟',options:['تحديد دقيق','الرسم الحر','كتابة نص','تلوين'],correct:0},
+    {q:'كيف نطبق انتقال بين مقطعين؟',options:['نسحب Effect على الحافة','ندمج المقاطع','نضيف Adjustment Layer','نغير السرعة'],correct:0},
+    {q:'Lumetri Color تستخدم لـ؟',options:['تصحيح الألوان','ضبط الصوت','إضافة نص','تحرير الفيديو'],correct:0},
+    {q:'ما فائدة Multi-Cam؟',options:['التبديل بين كاميرات متعددة','تقسيم الشاشة','إضافة مؤثرات','تسريع المونتاج'],correct:0}
+  ]
+];
+const fgAssign=[
+  [
+    {q:'ما اختصار أداة Frame في فيجما؟',options:['F','R','T','A'],correct:0},
+    {q:'Auto Layout يستخدم لـ؟',options:['ترتيب العناصر تلقائياً','تلوين العناصر','إضافة نص','تصدير التصميم'],correct:0},
+    {q:'كيف تنشئ Component؟',options:['Ctrl+Alt+K','Ctrl+K','Ctrl+G','Ctrl+Shift+K'],correct:0},
+    {q:'أفضل طريقة لمشاركة تصميم فيجما؟',options:['Share link من الزاوية','تصدير PNG','تصدير PDF','إرسال الملف'],correct:0}
+  ],
+  [
+    {q:'ما اختصار أداة المستطيل؟',options:['R','S','M','U'],correct:0},
+    {q:'كيف تضيف ظل لعنصر في فيجما؟',options:['من Effects → Drop Shadow','Filter → Shadow','Style → Shadow','يمين ← Shadow'],correct:0},
+    {q:'ماذا يعني Prototype في فيجما؟',options:['ربط الشاشات تفاعلياً','تصدير التصميم','طباعة التصميم','حفظ التصميم'],correct:0},
+    {q:'كيف تنسخ عنصر بسرعة؟',options:['Alt + سحب','Ctrl+C/Ctrl+V','Ctrl+D','يمين ← Duplicate'],correct:0}
+  ],
+  [
+    {q:'ما اختصار تكبير العرض لملء الشاشة؟',options:['Shift+1','Ctrl+1','Ctrl+0','Shift+0'],correct:0},
+    {q:'كيف تضيف صورة إلى فيجما؟',options:['Shift+Ctrl+K','File → Open','سحب وإفلات','Insert → Image'],correct:0},
+    {q:'أفضل ميزة لضمان تناسق الأحجام؟',options:['Auto Layout','Constraints','Grid','Align'],correct:0},
+    {q:'ماذا يعني UX؟',options:['تجربة المستخدم','واجهة المستخدم','تصميم الشاشات','اختبار المستخدم'],correct:0}
+  ]
+];
+const ccAssign=[
+  [
+    {q:'كيف تقص مقطع في كاب كت؟',options:['اختر Split أو Ctrl+B','اضغط Cut','اسحب الحافة','يمين ← Delete'],correct:0},
+    {q:'كيف تضيف موسيقى في كاب كت؟',options:['Audio ← اختر ملف','Music ← Import','File → Open','سحب إلى Timeline'],correct:0},
+    {q:'أفضل جودة تصدير فيديو؟',options:['1080p 30fps','4K 60fps','720p 30fps','480p'],correct:0},
+    {q:'كيف تطبق Transition بين مقطعين؟',options:['اسحب التأثير بين المقاطع','ادمج المقطعين','أضف Adjustment Layer','غير السرعة'],correct:0}
+  ],
+  [
+    {q:'كيف تضيف نص في كاب كت؟',options:['Text ← اكتب النص','Title → Add','Insert → Text','يمين ← New Text'],correct:0},
+    {q:'ماذا تفعل أداة Chroma Key؟',options:['تزيل الخلفية الخضراء','تغير اللون','تضيف تأثير','تعدل السطوع'],correct:0},
+    {q:'كيف تبطئ الحركة؟',options:['Speed ← اختر أقل من 100%','Slow → Apply','Effect → Slow','Filter → Slow'],correct:0},
+    {q:'كيف تضيف Watermark للفيديو؟',options:['أضف صورة أو نص فوق الفيديو','Export → Watermark','Settings → Watermark','Filter → Watermark'],correct:0}
+  ],
+  [
+    {q:'أداة Keyframes تستخدم لـ؟',options:['التحريك والتأثيرات المتدرجة','قص الفيديو','إضافة نص','تعديل الألوان'],correct:0},
+    {q:'كيف تسجل تعليق صوتي في كاب كت؟',options:['Audio → Record','Voice → Record','Sound → New','يمين ← Record'],correct:0},
+    {q:'ما اختصار التراجع عن آخر تعديل؟',options:['Ctrl+Z','Ctrl+Y','Ctrl+X','Ctrl+Shift+Z'],correct:0},
+    {q:'كيف تضيف انتقال Fade في النهاية؟',options:['Fade-out من Transitions','Delete آخر جزء','Slow motion','Add black screen'],correct:0}
+  ]
+];
+const frAssign=[
+  [
+    {q:'أفضل منصة للعمل الحر للمبتدئين العرب؟',options:['مستقل وخمسات','Upwork','Fiverr','Freelancer.com'],correct:0},
+    {q:'كيف تسعر خدمتك كـ مبتدئ؟',options:['سعر منخفض ثم ترفع تدريجياً','أعلى سعر في السوق','مجاناً أول مشروع','نفس سعر المحترفين'],correct:0},
+    {q:'أهم شيء في الملف الشخصي؟',options:['صورة احترافية + وصف خدماتك','كثرة الكلام','ألوان كثيرة','فيديو طويل'],correct:0},
+    {q:'أفضل طريقة لجذب العملاء؟',options:['نشر أعمالك + التواصل المباشر','انتظار العملاء','تخفيض الأسعار','الإعلان المدفوع فقط'],correct:0}
+  ],
+  [
+    {q:'كم مشروع تحتاج لبناء سمعة قوية؟',options:['١٠-١٥ مشروع','مشروع واحد','٥٠ مشروع','أي عدد'],correct:0},
+    {q:'كيف تتعامل مع عميل صعب؟',options:['تواصل واضح + حدود Professional','توافق على كل شيء','تتجاهله','تشتغل مجاناً'],correct:0},
+    {q:'ما أفضل وقت لرفع سعرك؟',options:['بعد كل ١٠ مشاريع','بعد أول مشروع','مرة في السنة','لا ترفع أبداً'],correct:0},
+    {q:'أي قناة تسويق مناسبة للمصممين؟',options:['إنستغرام + لينكد إن','تيك توك فقط','فيسبوك فقط','تويتر فقط'],correct:0}
+  ],
+  [
+    {q:'كم نسبة المنصة من أرباحك؟',options:['١٠-٢٠٪','٣٠-٤٠٪','٥٠٪','لا توجد'],correct:0},
+    {q:'كيف تحسن جودة أعمالك؟',options:['تعلم مستمر + متابعة التطورات','تستخدم نفس التصميم دائماً','تنسخ من الآخرين','تقلل الجهد'],correct:0},
+    {q:'ما أفضل استثمار لمشاريعك؟',options:['بناء ملف أعمال قوي','شراء معدات غالية','اكتتاب في شركات','اشتراكات غير ضرورية'],correct:0},
+    {q:'متى تبدأ بالبحث عن عملاء جدد؟',options:['حتى وأنت مشغول بمشروع','عند الفراغ','عند الحاجة','نهاية الشهر'],correct:0}
+  ]
+];
+
+const assignments={ps:psAssign,pr:prAssign,fg:fgAssign,cc:ccAssign,fr:frAssign};
+
+const courses=[
+  {id:'ps-basics',cat:'photoshop',title:'أساسيات الفوتوشوب',desc:'تعلم واجهة الفوتوشوب، الطبقات، أدوات التحديد، الفلاتر، وتصميم البانرات — من الصفر للاحتراف',level:'beginner',duration:'٣ ساعات',price:12,lessons:generateLessons('ps',psTitles,'ps'),
+    downloads:[{name:'🎁 Adobe Photoshop 2025',desc:'هدية مقدمة من الموقع — نسخة كاملة',url:'https://archive.org/details/adobe.-photoshop-2025l'},{name:'Adobe Photoshop 2024',desc:'النسخة المجانية المستقرة',url:'https://archive.org/details/adobe-photoshop-2024_202506'}]},
+  {id:'ps-ad',cat:'photoshop',title:'تصميم إعلان احترافي',desc:'تعلم تصميم إعلان متكامل — من فكرة التصميم إلى التصدير النهائي باحترافية',level:'intermediate',duration:'ساعتان',price:17,lessons:generateLessons('ps',psTitles.slice(0,15),'ps'),
+    downloads:[{name:'🎁 Adobe Photoshop 2025',desc:'هدية مقدمة من الموقع — لفتح وتعديل ملفات PSD',url:'https://archive.org/details/adobe.-photoshop-2025l'}]},
+  {id:'premiere-basics',cat:'montage',title:'أساسيات بريمير برو',desc:'تعلم المونتاج من الصفر — قص الفيديو، إضافة تأثيرات، موسيقى، وتصدير احترافي',level:'beginner',duration:'٤ ساعات',price:12,lessons:generateLessons('pr',prTitles,'pr'),
+    downloads:[{name:'🎁 Adobe Premiere Pro 2024',desc:'هدية مقدمة من الموقع — نسخة كاملة',url:'https://archive.org/details/adobe-premiere-pro-2024-v-24.1.0.85'},{name:'Adobe Premiere Pro Portable',desc:'نسخة محمولة بدون تثبيت',url:'https://thehouseofportable.com/2919/adobe-premiere-pro-portable-2026'}]},
+  {id:'capcut',cat:'montage',title:'مونتاج كاب كت المتقدم',desc:'تعلم مونتاج فيديو احترافي على كاب كت — موبايل وديسكتوب مع تأثيرات متقدمة',level:'intermediate',duration:'٣ ساعات',price:15,lessons:generateLessons('cc',ccTitles,'cc'),
+    downloads:[{name:'CapCut Desktop (مجاني رسمي)',desc:'مجاني بالكامل — نسخة الكمبيوتر',url:'https://www.capcut.com/download'},{name:'CapCut Mobile (APK)',desc:'نسخة أندرويد مجانية',url:'https://apkpure.com/capcut'}]},
+  {id:'figma-ui',cat:'figma',title:'تصميم واجهات فيجما',desc:'تعلم تصميم واجهات المستخدم من الصفر — تطبيقات ومواقع باستخدام فيجما',level:'beginner',duration:'٣ ساعات',price:14,lessons:generateLessons('fg',fgTitles,'fg'),
+    downloads:[{name:'Figma Desktop App (مجاني)',desc:'تطبيق سطح المكتب — مجاني بالكامل',url:'https://www.figma.com/downloads/'},{name:'Figma في المتصفح',desc:'استخدم فيجما بدون تحميل',url:'https://www.figma.com'}]},
+  {id:'freelance',cat:'profit',title:'فريلانس والربح من المهارات',desc:'تعلم كيف تبدأ العمل الحر عبر الإنترنت وتكسب من مهاراتك الرقمية',level:'beginner',duration:'ساعتان',price:10,lessons:generateLessons('fr',frTitles,'fr'),
+    downloads:[{name:'📄 نموذج عقد عمل حر',desc:'قالب من مستقل — جاهز للتعديل',url:'https://mostaql.com/handbook/freelance-contract'},{name:'🌐 منصات العمل الحر',desc:'مستقل — أكبر منصة عربية',url:'https://mostaql.com'},{name:'💼 موقع Upwork',desc:'أكبر منصة عالمية للعمل الحر',url:'https://www.upwork.com'}]}
+];
+
+function fmtPrice(c){
+  const egp=c.price*50;
+  const egpStr=egp.toLocaleString(currentLang==='ar'?'ar-EG':'en-US');
+  const currency=currentLang==='ar'?'ج.م':'EGP';
+  return `$${c.price} USD | ${egpStr} ${currency}`;
+}
+
+let enrolledCourses=JSON.parse(localStorage.getItem('san3a_enrolled')||'[]');
+let completedLessons=JSON.parse(localStorage.getItem('san3a_completed')||'[]');
+let adminMode=localStorage.getItem('san3a_admin')==='true';
+let currentCourse=null;
+let currentLesson=0;
+
+function isUnlocked(courseId,lessonIndex){
+  if(adminMode)return true;
+  if(lessonIndex<2)return true;
+  if(!dailyCodeVerified)return false;
+  return enrolledCourses.includes(courseId);
+}
+
+function renderCats(){
+  document.getElementById('catGrid').innerHTML=cats.map(c=>
+    `<div class="cat-card" onclick="showCategory('${c.id}')">
+      <div>${c.icon}</div><h3>${catName(c)}</h3><p>${catDesc(c)}</p>
+      <div class="count">${courses.filter(co=>co.cat===c.id).length}</div>
+    </div>`
+  ).join('');
+}
+
+function renderFeatured(){
+  document.getElementById('featuredGrid').innerHTML=courses.slice(0,4).map(c=>renderCourseCard(c)).join('');
+}
+
+function renderCourseCard(c){
+  const cat=cats.find(ca=>ca.id===c.cat);
+  const enrolled=enrolledCourses.includes(c.id);
+  return `<div class="course-card" onclick="showCourse('${c.id}')">
+    <div class="course-thumb" style="background:${cat.color}22">
+      ${cat.icon}
+      <div class="badge">${enrolled?t('enrolledTag'):t('paidTag')}</div>
+    </div>
+    <div class="course-info">
+      <h3>${c.title}</h3>
+      <div class="meta"><span>${catName(cat)}</span><span>${c.duration}</span></div>
+      <div class="desc">${c.desc}</div>
+      <div class="level ${'level-'+c.level}">${c.level==='beginner'?t('beginner'):c.level==='intermediate'?t('intermediate'):t('advanced')}</div>
+      <div class="course-footer">
+        <div class="price">${fmtPrice(c)}</div>
+        <div class="lessons">${c.lessons.length} ${t('lessons')}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo({top:0});
+}
+
+function saveLearnerName(){
+  const name=document.getElementById('learnerNameInput').value.trim();
+  if(name) localStorage.setItem('san3a_learner_name',name);
+}
+
+function showHome(){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-home').classList.add('active');
+}
+
+function scrollToCats(){
+  document.getElementById('catGrid').scrollIntoView({behavior:'smooth'});
+}
+
+function showCategory(catId){
+  const cat=cats.find(c=>c.id===catId);
+  const catCourses=courses.filter(c=>c.cat===catId);
+  document.getElementById('catHeader').innerHTML=`
+    <div class="section-title">${cat.icon} ${catName(cat)}</div>
+    <p style="margin-bottom:14px;color:#666">${catDesc(cat)} — ${catCourses.length} ${t('courses')}</p>
+  `;
+  document.getElementById('catCourseGrid').innerHTML=catCourses.map(c=>renderCourseCard(c)).join('');
+  showPage('category');
+}
+
+function showAllCourses(){
+  document.getElementById('allCourseGrid').innerHTML=courses.map(c=>renderCourseCard(c)).join('');
+  document.getElementById('allCoursesTitle').textContent=t('allCourses');
+  document.querySelectorAll('.back-text').forEach(el=>el.textContent=t('backHome'));
+  showPage('allcourses');
+}
+
+function showCourse(courseId){
+  currentCourse=courses.find(c=>c.id===courseId);
+  currentLesson=0;
+  if(!currentCourse)return;
+  renderCourseDetail();
+  showPage('course');
+}
+
+function renderCourseDetail(){
+  const c=currentCourse;
+  const cat=cats.find(ca=>ca.id===c.cat);
+  const enrolled=enrolledCourses.includes(c.id);
+
+  document.getElementById('lessonsSectionTitle').textContent=t('lessons');
+
+  document.getElementById('courseHeader').innerHTML=`
+    <div class="back" onclick="showAllCourses()">${t('backCourses')}</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <span style="font-size:32px">${cat.icon}</span>
+      <div>
+        <h1>${c.title}</h1>
+        <div class="meta">
+          <span>${catName(cat)}</span><span>${c.duration}</span><span>${c.lessons.length} ${t('lessons')}</span>
+          <span class="level ${'level-'+c.level}">${c.level==='beginner'?t('beginner'):c.level==='intermediate'?t('intermediate'):t('advanced')}</span>
+        </div>
+      </div>
+    </div>
+    <p>${c.desc}</p>
+    <div class="enroll-section">
+      <div class="price-big">${fmtPrice(c)}</div>
+      ${enrolled?`<span style="color:#28a745;font-weight:700">${t('youAreEnrolled')}</span>`:
+        (`<button class="btn btn-primary" onclick="showSubscribeModal()">${t('buyCourse')}</button>`)}
+      <span style="font-size:12px;color:#666">${t('freeLessons')}</span>
+      ${!dailyCodeVerified&&!enrolled&&!adminMode?`<button class="btn btn-secondary btn-sm" onclick="showDailyCodeModal()">🔐 ${t('codeModalTitle')}</button>`:''}
+      ${dailyCodeVerified&&!enrolled?`<span style="font-size:12px;color:#28a745">✅ ${t('codeSuccess')}</span>`:''}
+    </div>
+  `;
+
+  if(c.downloads){
+    document.getElementById('downloadSection').innerHTML=`
+      <div class="download-section">
+        <h3>${t('downloadSection')}</h3>
+        ${c.downloads.map(d=>`
+          <div class="download-item">
+            <div class="info"><h4>${d.name}</h4><span>${d.desc}</span></div>
+            <a class="dl-btn" href="${d.url}" target="_blank" rel="noopener">${t('downloadLabel')}</a>
+          </div>
+        `).join('')}
+      </div>`;
+  } else {
+    document.getElementById('downloadSection').innerHTML='';
+  }
+
+  renderLessonList();
+  document.getElementById('lessonViewer').classList.remove('active');
+}
+
+function renderLessonList(){
+  const c=currentCourse;
+
+  document.getElementById('lessonList').innerHTML=c.lessons.map((l,i)=>{
+    const comp=completedLessons.includes(l.id);
+    const unlocked=isUnlocked(c.id,i);
+    let numClass=comp?'completed':unlocked?'unlocked':'locked';
+    let statusIcon=comp?'✅':unlocked?'🔓':'🔒';
+    return `<div class="lesson-item" onclick="${unlocked?`openLesson(${i})`:''}" style="${!unlocked?'opacity:.6;cursor:not-allowed':''}">
+      <div class="num ${numClass}">${i+1}</div>
+      <div class="info">
+        <h4>${l.title}</h4>
+        <span>${t('videoPlusAssignment')}</span>
+      </div>
+      <div class="status-icon">${statusIcon}</div>
+    </div>`;
+  }).join('');
+}
+
+function openLesson(idx){
+  const unlocked=isUnlocked(currentCourse.id,idx);
+  if(!unlocked){
+    if(!currentUser&&!adminMode){showAuthModal();return;}
+    if(!adminMode)showSubscribeModal();
+    return;
+  }
+  currentLesson=idx;
+  const lesson=currentCourse.lessons[idx];
+  document.getElementById('lessonTitle').textContent=`${t('lesson')} ${idx+1}: ${lesson.title}`;
+  document.getElementById('lessonVideo').src=lesson.video;
+  renderAssignment(lesson);
+  document.getElementById('lessonViewer').classList.add('active');
+  document.getElementById('lessonViewer').scrollIntoView({behavior:'smooth'});
+}
+
+function renderAssignment(lesson){
+  const a=lesson.assignment;
+  let html=`<h3>${t('assignmentTitle')}</h3><p style="font-size:13px;color:#666;margin-bottom:14px">${t('assignmentHint')}</p>`;
+  a.questions.forEach((q,i)=>{
+    html+=`<div class="q-item"><p>${i+1}. ${q.q}</p>`;
+    q.options.forEach((o,j)=>{
+      html+=`<label><input type="radio" name="q${i}" value="${j}" onchange="checkAssignment()">${o}</label>`;
+    });
+    html+=`</div>`;
+  });
+  html+=`<button class="btn btn-primary" id="submitAssignmentBtn" onclick="submitAssignment()" style="width:100%;justify-content:center">${t('submitAnswers')}</button>`;
+  html+=`<div id="assignmentResult"></div>`;
+  document.getElementById('assignmentBox').innerHTML=html;
+}
+
+let assignmentAttempted=false;
+
+function checkAssignment(){}
+
+function submitAssignment(){
+  if(assignmentAttempted)return;
+  const lesson=currentCourse.lessons[currentLesson];
+  const a=lesson.assignment;
+  let correct=0;
+  a.questions.forEach((q,i)=>{
+    const selected=document.querySelector(`input[name="q${i}"]:checked`);
+    if(selected&&parseInt(selected.value)===q.correct)correct++;
+  });
+  const passed=correct>=3;
+  assignmentAttempted=true;
+
+  const resultDiv=document.getElementById('assignmentResult');
+  if(passed){
+    if(!completedLessons.includes(lesson.id)){
+      completedLessons.push(lesson.id);
+      localStorage.setItem('san3a_completed',JSON.stringify(completedLessons));
+    }
+    resultDiv.innerHTML=`
+      <div class="assignment-result pass">${t('successMsg',{n:correct})}</div>
+      <button class="btn btn-success btn-sm" onclick="closeLesson()" style="margin-top:8px">${t('backToLessons')}</button>
+    `;
+    document.getElementById('submitAssignmentBtn').disabled=true;
+    document.getElementById('submitAssignmentBtn').style.opacity='.5';
+    renderLessonList();
+    renderCourseDetail();
+  } else {
+    resultDiv.innerHTML=`
+      <div class="assignment-result fail">${t('failMsg',{n:correct})}</div>
+      <button class="btn btn-primary btn-sm" onclick="retryAssignment()" style="margin-top:8px">${t('retry')}</button>
+    `;
+  }
+}
+
+function retryAssignment(){
+  assignmentAttempted=false;
+  document.getElementById('assignmentResult').innerHTML='';
+  document.querySelectorAll('.q-item input[type="radio"]:checked').forEach(r=>r.checked=false);
+  document.getElementById('submitAssignmentBtn').disabled=false;
+  document.getElementById('submitAssignmentBtn').style.opacity='1';
+}
+
+function closeLesson(){
+  document.getElementById('lessonViewer').classList.remove('active');
+  document.getElementById('lessonVideo').src='';
+  assignmentAttempted=false;
+  renderLessonList();
+  if(currentCourse)renderCourseDetail();
+  updateDashboard();
+}
+
+function showSubscribeModal(){
+  document.getElementById('subscribeEmail').textContent='san3a.courses.co@gmail.com';
+  document.getElementById('subscribeModal').classList.add('active');
+}
+
+function closeSubscribeModal(){
+  document.getElementById('subscribeModal').classList.remove('active');
+}
+
+function showDashboard(){
+  if(!currentUser&&!adminMode){
+    showAuthModal();
+    return;
+  }
+  const enrolled=enrolledCourses.length;
+  const completed=completedLessons.length;
+  document.getElementById('dashEnrolled').textContent=enrolled;
+  document.getElementById('dashCompleted').textContent=completed;
+
+  if(adminMode){
+    document.getElementById('adminPanel').style.display='block';
+    document.getElementById('adminBadge').style.display='inline-flex';
+    document.getElementById('adminDailyCode').textContent=getDailyCode();
+    document.getElementById('dailyCodeLabel').textContent=t('dailyCodeLabel');
+    document.getElementById('codeExpiryLabel').textContent=t('codeExpires');
+  } else {
+    document.getElementById('adminPanel').style.display='none';
+  }
+  const nameInput=document.getElementById('learnerNameInput');
+  if(nameInput) nameInput.value=localStorage.getItem('san3a_learner_name')||'';
+
+  let totalLessons=0;
+  courses.forEach(c=>totalLessons+=c.lessons.length);
+  const pct=totalLessons>0?Math.round(completed/totalLessons*100):0;
+  const pctText=currentLang==='ar'?(pct===0?'٠٪':pct.toLocaleString('ar-SA')+'٪'):pct+'%';
+  document.getElementById('dashPct').textContent=pctText;
+
+  if(enrolled===0&&!adminMode){
+    document.getElementById('myCoursesList').innerHTML=`<div style="color:#666;text-align:center;padding:14px">${t('noCourses')}</div>`;
+  } else {
+    let html='';
+    const courseList=adminMode?courses:courses.filter(c=>enrolledCourses.includes(c.id));
+    if(courseList.length===0){
+      html=`<div style="color:#666;text-align:center;padding:14px">${t('noCourses')}</div>`;
+    } else {
+      courseList.forEach(c=>{
+        const cat=cats.find(ca=>ca.id===c.cat);
+        const done=c.lessons.filter(l=>completedLessons.includes(l.id)).length;
+        const pct=Math.round(done/c.lessons.length*100);
+        html+=`<div class="my-course-item" onclick="showCourse('${c.id}')">
+          <div class="thumb" style="background:${cat.color}22">${cat.icon}</div>
+          <div class="info">
+            <h4>${c.title}</h4>
+            <div class="prog-text">${done}/${c.lessons.length} ${t('lessons')}</div>
+            <div class="mini-bar"><div style="width:${pct}%"></div></div>
+          </div>
+          <span style="font-size:13px;font-weight:700">${pct}%</span>
+        </div>`;
+      });
+    }
+    document.getElementById('myCoursesList').innerHTML=html;
+  }
+
+  renderCertificates();
+  showPage('dashboard');
+}
+
+function renderCertificates(){
+  const certs=courses.filter(c=>{
+    if(adminMode) return false;
+    return c.lessons.every(l=>completedLessons.includes(l.id)) && enrolledCourses.includes(c.id);
+  });
+
+  if(certs.length===0){
+    document.getElementById('certificatesList').innerHTML=`<div style="color:#666;text-align:center;padding:14px">${t('noCerts')}</div>`;
+    return;
+  }
+
+  document.getElementById('certificatesList').innerHTML='<div class="cert-list">'+
+    certs.map(c=>{
+      const cat=cats.find(ca=>ca.id===c.cat);
+      const dateLocale=currentLang==='ar'?'ar-EG':'en-US';
+      const date=new Date().toLocaleDateString(dateLocale,{year:'numeric',month:'long',day:'numeric'});
+      const certId='SN3-'+c.id.toUpperCase()+'-'+Date.now().toString(36).toUpperCase();
+      return `<div class="certificate-card">
+        <div class="seal">🏅</div>
+        <h2>${t('certTitle')}</h2>
+        <div class="sub">${t('certSub')}</div>
+        <div class="details">
+          <strong style="font-size:18px">${localStorage.getItem('san3a_learner_name')||(currentLang==='en'?'Student':'الطالب')}</strong><br>
+          ${t('certCompleted')}<br>
+          <strong>"${c.title}"</strong><br>
+          ${date}<br>
+          <span style="color:#666">${t('certRate')} ${c.lessons.length}/${c.lessons.length} ${t('lessons')}</span>
+        </div>
+        <div class="cert-id">${certId}</div>
+        <button class="btn btn-sm btn-primary" onclick="printCertificate('${c.id}')" style="margin-top:8px">${t('printCert')}</button>
+      </div>`;
+    }).join('')+'</div>';
+}
+
+function printCertificate(courseId){
+  const c=courses.find(co=>co.id===courseId);
+  if(!c)return;
+  const cat=cats.find(ca=>ca.id===c.cat);
+  const dir=currentLang==='ar'?'rtl':'ltr';
+  const dateLocale=currentLang==='ar'?'ar-EG':'en-US';
+  const date=new Date().toLocaleDateString(dateLocale,{year:'numeric',month:'long',day:'numeric'});
+  const learnerName=localStorage.getItem('san3a_learner_name')||(currentLang==='en'?'Student':'الطالب');
+  const siteName=currentLang==='en'?'San3a':'صُنعة';
+  const certTitle=currentLang==='en'?'Certificate of Completion':'شهادة إتمام';
+  const certSub=currentLang==='en'?`${siteName} certifies that`:`يشهد موقع ${siteName} بأن`;
+  const certCompleted=currentLang==='en'?'has successfully completed the course':'قد أكمل بنجاح كورس';
+  const certLessons=currentLang==='en'?`${c.lessons.length} lessons`:`${c.lessons.length} دروس`;
+
+  const win=window.open('','_blank');
+  win.document.write(`
+    <html dir="${dir}"><head><meta charset="UTF-8"><style>
+      @page{margin:0}
+      body{font-family:Tajawal,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#fff}
+      .cert{width:800px;padding:60px 40px;text-align:center;border:8px solid #f7c948;border-radius:24px;position:relative;background:linear-gradient(135deg,#fff,#fffdf5)}
+      .cert:before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#f7c948,#e5b532,#f7c948)}
+      .cert .seal{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#f7c948,#e5b532);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 16px}
+      .cert h1{font-size:28px;color:#1a1a2e;margin-bottom:4px}
+      .cert .sub{font-size:16px;color:#666;margin-bottom:24px}
+      .cert .name{font-size:32px;font-weight:900;color:#1a1a2e;margin:16px 0}
+      .cert .course{font-size:22px;color:#f7c948;margin:8px 0}
+      .cert .detail{font-size:14px;color:#666;line-height:2;margin:20px 0}
+      .cert .id{font-size:12px;color:#999;direction:ltr;margin-top:24px}
+      .cert .date{font-size:14px;color:#666}
+    </style></head><body>
+    <div class="cert">
+      <div class="seal">🏅</div>
+      <h1>${certTitle}</h1>
+      <div class="sub">${certSub}</div>
+      <div class="name">${learnerName}</div>
+      <div class="sub">${certCompleted}</div>
+      <div class="course">${c.title}</div>
+      <div class="detail">
+        ${cat.icon} ${catName(cat)}<br>
+        ${certLessons} — ${c.duration}<br>
+        <span class="date">${date}</span>
+      </div>
+      <div class="id">SN3-${c.id.toUpperCase()}-${Date.now().toString(36).toUpperCase()}</div>
+    </div>
+    <script>window.onload=function(){window.print();}<\/script>
+    </body></html>
+  `);
+  win.document.close();
+}
+
+function updateDashboard(){
+  const enrolled=enrolledCourses.length;
+  const completed=completedLessons.length;
+  document.getElementById('dashEnrolled').textContent=enrolled;
+  document.getElementById('dashCompleted').textContent=completed;
+}
+
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('modal-overlay')){
+    e.target.classList.remove('active');
+  }
+});
+
+document.addEventListener('DOMContentLoaded',function(){
+  checkURLAdmin();
+  if(adminMode){
+    document.getElementById('adminBadge').style.display='inline-flex';
+  }
+});
+
+renderCats();
+renderFeatured();
+</script>
+</body>
+</html>
