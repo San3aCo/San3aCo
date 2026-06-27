@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة الأدمن — صنعة</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Tajawal,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.container{max-width:600px;margin:0 auto;padding:20px}
+.card{background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 24px rgba(0,0,0,.06);margin-bottom:16px}
+h1{font-size:22px;margin-bottom:4px}
+.sub{font-size:13px;color:#666;margin-bottom:16px}
+.course-code{background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.course-code .name{font-size:13px;font-weight:600;flex:1}
+.course-code .code{font-size:18px;font-weight:900;letter-spacing:3px;direction:ltr;color:#f7c948;font-family:monospace}
+.course-code .copy-btn{background:#1a1a2e;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;transition:opacity .2s}
+.course-code .copy-btn:hover{opacity:.8}
+.course-code .copy-btn.copied{background:#28a745}
+.subscriber-item{padding:4px 0;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.subscriber-word{color:#f7c948;font-weight:700;direction:ltr;display:inline-block}
+.expiry{font-size:11px;color:#999;text-align:center;margin-top:4px}
+.auth-box{text-align:center;padding:40px 20px}
+.auth-box .logo{font-size:48px;margin-bottom:8px}
+.auth-box h2{font-size:20px;margin-bottom:4px}
+.auth-box input{width:100%;padding:12px 16px;border:2px solid #ddd;border-radius:8px;font-size:16px;text-align:center;margin:12px 0;font-family:inherit}
+.auth-box input:focus{border-color:#f7c948;outline:none}
+.auth-box .error{color:#dc3545;font-size:13px;display:none;margin-top:8px}
+.btn{background:#f7c948;color:#1a1a2e;border:none;padding:10px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s;font-family:inherit}
+.btn:hover{opacity:.85}
+.btn-sm{padding:6px 14px;font-size:12px}
+.btn-secondary{background:#e9ecef;color:#666}
+.logout{position:fixed;bottom:20px;right:20px;z-index:100}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;font-size:12px}
+.lang-toggle{position:fixed;top:16px;left:16px;z-index:100;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer}
+@media(max-width:480px){.container{padding:12px}.card{padding:16px}.course-code{flex-wrap:wrap}.course-code .code{font-size:16px}}
+</style>
+</head>
+<body>
+
+<div class="lang-toggle" onclick="toggleLang()" id="langBtn">English</div>
+
+<div class="container" id="adminContainer">
+  <div id="loginBox" class="card auth-box">
+    <div class="logo">🔧</div>
+    <h2 id="loginTitle">لوحة الأدمن</h2>
+    <p class="sub" id="loginSub">أدخل كلمة سر الأدمن للدخول</p>
+    <input type="password" id="adminPass" placeholder="كلمة سر الأدمن" onkeydown="if(event.key==='Enter')login()">
+    <div class="error" id="loginError">كلمة سر غير صحيحة</div>
+    <button class="btn" onclick="login()" id="loginBtn">دخول</button>
+  </div>
+
+  <div id="adminPanel" style="display:none">
+    <div style="text-align:center;margin-bottom:12px">
+      <h1>🔧 <span id="panelTitle">لوحة التحكم</span></h1>
+      <p class="sub" id="panelSub">مرحباً أيها الأدمن</p>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span style="font-size:14px;font-weight:700">🔑 <span id="codesTitle">أكواد اليوم لكل كورس</span></span>
+        <button class="btn btn-sm btn-secondary" onclick="refreshCodes()" id="refreshBtn">تحديث</button>
+      </div>
+      <div id="codesList"></div>
+      <div class="expiry" id="expiryLabel">ينتهي منتصف الليل</div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:14px;font-weight:700;margin-bottom:10px">📋 <span id="subsTitle">المشتركين</span></div>
+      <div id="subsList" style="max-height:200px;overflow-y:auto"></div>
+      <div style="margin-top:8px;font-size:11px;color:#999" id="csvHint">لإضافة مشترك: افتح <code>subscribers.csv</code> ← عدّل في Excel ← ارفع عالـ GitHub</div>
+    </div>
+
+    <button class="btn btn-secondary" onclick="logout()" id="logoutBtn">تسجيل الخروج</button>
+  </div>
+</div>
+
+<script>
+const SECRET='san3a2024';
+const DAILY_SECRET='san3a2024';
+const courseSecrets={'ps-basics':'ps2024','ps-ad':'ad2024','premiere-basics':'pr2024','capcut':'cc2024','figma-ui':'fg2024','freelance':'fr2024'};
+
+const courseNames={
+  ar:{'ps-basics':'فوتوشوب للإنتاج البصري','ps-ad':'صناعة الإعلان البصري','premiere-basics':'مونتاج الفيديو التجاري','capcut':'كاب كت — إنتاج فيديو','figma-ui':'واجهات المستخدم — فيجما','freelance':'الربح من المهارات الرقمية'},
+  en:{'ps-basics':'Photoshop','ps-ad':'Ad Design','premiere-basics':'Premiere Pro Basics','capcut':'CapCut Video','figma-ui':'Figma UI/UX','freelance':'Freelancing'}
+};
+
+const subsDb=[];
+
+let lang='ar';
+let subscribers=[];
+
+const strings={
+  ar:{
+    loginTitle:'لوحة الأدمن',loginSub:'أدخل كلمة سر الأدمن للدخول',loginBtn:'دخول',loginError:'كلمة سر غير صحيحة',
+    panelTitle:'لوحة التحكم',panelSub:'مرحباً أيها الأدمن',codesTitle:'أكواد اليوم لكل كورس',
+    refreshBtn:'تحديث',subsTitle:'المشتركين',csvHint:'لإضافة مشترك: افتح subscribers.csv ← عدّل في Excel ← ارفع عالـ GitHub',
+    logoutBtn:'تسجيل الخروج',copyBtn:'نسخ',copied:'تم!',noSubs:'لا يوجد مشتركين',expiry:'ينتهي منتصف الليل',
+    langLabel:'English',loading:'جارٍ التحميل...'
+  },
+  en:{
+    loginTitle:'Admin Panel',loginSub:'Enter admin password',loginBtn:'Login',loginError:'Wrong password',
+    panelTitle:'Dashboard',panelSub:'Welcome, Admin',codesTitle:"Today's Codes",
+    refreshBtn:'Refresh',subsTitle:'Subscribers',csvHint:'To add: edit subscribers.csv in Excel → push to GitHub',
+    logoutBtn:'Logout',copyBtn:'Copy',copied:'Copied!',noSubs:'No subscribers',expiry:'Expires at midnight',
+    langLabel:'العربية',loading:'Loading...'
+  }
+};
+
+function t(key){return strings[lang][key]||key;}
+
+function toggleLang(){
+  lang=(lang==='ar')?'en':'ar';
+  document.dir=lang==='ar'?'rtl':'ltr';
+  document.getElementById('langBtn').textContent=t('langLabel');
+  applyLang();
+  refreshCodes();
+}
+
+function applyLang(){
+  document.documentElement.lang=lang;
+  document.title=t('loginTitle')+' — San3a';
+  document.getElementById('loginTitle').textContent=t('loginTitle');
+  document.getElementById('loginSub').textContent=t('loginSub');
+  document.getElementById('loginBtn').textContent=t('loginBtn');
+  if(document.getElementById('loginError'))document.getElementById('loginError').textContent=t('loginError');
+  document.getElementById('panelTitle').textContent=t('panelTitle');
+  document.getElementById('panelSub').textContent=t('panelSub');
+  document.getElementById('codesTitle').textContent=t('codesTitle');
+  document.getElementById('refreshBtn').textContent=t('refreshBtn');
+  document.getElementById('subsTitle').textContent=t('subsTitle');
+  document.getElementById('csvHint').textContent=t('csvHint');
+  document.getElementById('logoutBtn').textContent=t('logoutBtn');
+}
+
+function getDailyCode(courseId){
+  const d=new Date();
+  const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  let hash=0;
+  const str=ds+(courseSecrets[courseId]||DAILY_SECRET)+DAILY_SECRET;
+  for(let i=0;i<str.length;i++){
+    hash=((hash<<5)-hash)+str.charCodeAt(i);
+    hash=hash&hash;
+  }
+  return Math.abs(hash).toString(36).toUpperCase().slice(0,8);
+}
+
+function getExpiry(){
+  const now=new Date();
+  const mid=new Date(now);
+  mid.setHours(24,0,0,0);
+  const h=Math.floor((mid-now)/3600000);
+  const m=Math.floor(((mid-now)%3600000)/60000);
+  return {h,m};
+}
+
+function refreshCodes(){
+  const list=document.getElementById('codesList');
+  const ids=['ps-basics','ps-ad','premiere-basics','capcut','figma-ui','freelance'];
+  const names=lang==='ar'?courseNames.ar:courseNames.en;
+  list.innerHTML=ids.map(id=>{
+    const code=getDailyCode(id);
+    return `<div class="course-code">
+      <span class="name">${names[id]}</span>
+      <span class="code" id="code_${id}">${code}</span>
+      <button class="copy-btn" id="copy_${id}" onclick="copyCode('${id}')">${t('copyBtn')}</button>
+    </div>`;
+  }).join('');
+  const e=getExpiry();
+  document.getElementById('expiryLabel').textContent=t('expiry')+` (${e.h}h ${e.m}m)`;
+}
+
+function copyCode(id){
+  const code=document.getElementById('code_'+id).textContent;
+  navigator.clipboard.writeText(code).catch(()=>{});
+  const btn=document.getElementById('copy_'+id);
+  btn.textContent=t('copied');
+  btn.classList.add('copied');
+  setTimeout(()=>{btn.textContent=t('copyBtn');btn.classList.remove('copied');},1500);
+}
+
+function parseCSV(text){
+  const lines=text.trim().split('\n').map(l=>l.trim()).filter(l=>l);
+  if(lines.length<2)return[];
+  const headers=lines[0].split(',').map(h=>h.trim().toLowerCase());
+  return lines.slice(1).map(line=>{
+    const vals=line.split(',').map(v=>v.trim());
+    const row={};
+    headers.forEach((h,i)=>{
+      if(i<vals.length){
+        if(h==='name')row.name=vals[i];
+        else if(h==='word')row.word=vals[i];
+        else if(h==='course')row.course=vals[i];
+      }
+    });
+    if(!row.name)row.name=row.word||'';
+    return row;
+  }).filter(r=>r.word&&r.course);
+}
+
+async function loadSubscribers(){
+  try{
+    const res=await fetch('subscribers.csv');
+    if(res.ok){
+      const text=await res.text();
+      subscribers=parseCSV(text);
+    }
+  }catch(e){}
+  if(subscribers.length===0)subscribers=subsDb;
+  return subscribers;
+}
+
+function renderSubs(){
+  const list=document.getElementById('subsList');
+  if(!subscribers||subscribers.length===0){
+    list.innerHTML='<span style="color:#999">'+t('noSubs')+'</span>';
+    return;
+  }
+  const names=lang==='ar'?courseNames.ar:courseNames.en;
+  list.innerHTML=subscribers.map(s=>
+    `<div class="subscriber-item">
+      <span class="subscriber-word">${s.word}</span>
+      <span style="color:#666;font-size:12px">${names[s.course]||s.course}</span>
+    </div>`
+  ).join('');
+}
+
+function login(){
+  const pass=document.getElementById('adminPass').value.trim();
+  if(pass===SECRET){
+    localStorage.setItem('san3a_admin','true');
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('adminPanel').style.display='block';
+    refreshCodes();
+    renderSubs();
+    applyLang();
+  } else {
+    document.getElementById('loginError').style.display='block';
+  }
+}
+
+function logout(){
+  localStorage.removeItem('san3a_admin');
+  document.getElementById('loginBox').style.display='block';
+  document.getElementById('adminPanel').style.display='none';
+  document.getElementById('adminPass').value='';
+  document.getElementById('loginError').style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',async function(){
+  const urlParams=new URLSearchParams(window.location.search);
+  const adminParam=urlParams.get('admin');
+  if(adminParam===SECRET||adminParam==='San3a.co'){
+    localStorage.setItem('san3a_admin','true');
+  }
+  if(localStorage.getItem('san3a_admin')==='true'){
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('adminPanel').style.display='block';
+  }
+  await loadSubscribers();
+  refreshCodes();
+  renderSubs();
+  applyLang();
+});
+</script>
+</body>
+</html>

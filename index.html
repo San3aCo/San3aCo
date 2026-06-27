@@ -258,7 +258,7 @@ header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:12p
             <div style="background:#fff;border-radius:8px;padding:12px;margin-bottom:10px">
               <div style="font-size:13px;font-weight:700;margin-bottom:6px">📋 المشتركين</div>
               <div id="adminSubList" style="font-size:12px;max-height:150px;overflow-y:auto"></div>
-              <div style="margin-top:6px;font-size:11px;color:#999">لإضافة مشترك: افتح الملف ← عدّل <code>subscribersDb</code></div>
+              <div style="margin-top:6px;font-size:11px;color:#999">لإضافة مشترك: افتح <code>subscribers.csv</code> ← عدّل في Excel ← ارفع عالـ GitHub</div>
             </div>
             <button class="btn btn-sm btn-primary" onclick="localStorage.removeItem('san3a_admin');adminMode=false;document.getElementById('adminPanel').style.display='none';document.getElementById('adminBadge').style.display='none';updateAuthUI()" id="adminLogoutBtn">تسجيل الخروج من الأدمن</button>
           </div>
@@ -660,14 +660,41 @@ const courseSecrets={
   'freelance':'fr2024'
 };
 
-const subscribersDb=[
-  {word:'test123',name:'يوسف',course:'ps-basics'},
-  {word:'demo456',name:'أحمد',course:'ps-ad'},
-  {word:'premier789',name:'مريم',course:'premiere-basics'}
-];
+const subscribersDb=[];
+
+function parseCSV(text){
+  const lines=text.trim().split('\n').map(l=>l.trim()).filter(l=>l);
+  if(lines.length<2)return[];
+  const headers=lines[0].split(',').map(h=>h.trim().toLowerCase());
+  return lines.slice(1).map(line=>{
+    const vals=line.split(',').map(v=>v.trim());
+    const row={};
+    headers.forEach((h,i)=>{
+      if(i<vals.length){
+        if(h==='name')row.name=vals[i];
+        else if(h==='word')row.word=vals[i];
+        else if(h==='course')row.course=vals[i];
+      }
+    });
+    if(!row.name)row.name=row.word||'';
+    return row;
+  }).filter(r=>r.word&&r.course);
+}
+
+async function loadSubscribers(){
+  try{
+    const res=await fetch('subscribers.csv');
+    if(res.ok){
+      const text=await res.text();
+      subscribers=parseCSV(text);
+    }
+  }catch(e){}
+  if(subscribers.length===0)subscribers=subscribersDb;
+  return subscribers;
+}
 
 function validateSubscriber(word,courseId){
-  return subscribersDb.find(s=>s.word===word.trim()&&s.course===courseId);
+  return subscribers.find(s=>s.word===word.trim()&&s.course===courseId);
 }
 
 function subscribeWithWord(word,courseId){
@@ -1465,10 +1492,10 @@ function showDashboard(){
     </table>`;
     document.getElementById('adminCourseCodes').innerHTML=codesHtml;
     const subList=document.getElementById('adminSubList');
-    if(subscribersDb.length===0){
+    if(!subscribers||subscribers.length===0){
       subList.innerHTML='<span style="color:#999">لا يوجد مشتركين</span>';
     } else {
-      subList.innerHTML=subscribersDb.map(s=>`<div style="padding:3px 0">• ${s.name} — <span style="color:#f7c948;font-weight:700">${s.word}</span> ← ${courses.find(c=>c.id===s.course)?.title||s.course}</div>`).join('');
+      subList.innerHTML=subscribers.map(s=>`<div style="padding:3px 0">• <span style="color:#f7c948;font-weight:700;direction:ltr;display:inline-block">${s.word}</span> ← ${courses.find(c=>c.id===s.course)?.title||s.course}</div>`).join('');
     }
   } else {
     document.getElementById('adminPanel').style.display='none';
